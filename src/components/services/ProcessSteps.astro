@@ -1,0 +1,31 @@
+---
+import './ProcessSteps.css';
+import ScrollReveal from '../ui/ScrollReveal.astro';
+import { siteConfig } from '../../data/siteConfig';
+---
+
+<section class="process" aria-labelledby="process-heading">
+  <div class="process__inner">
+    <ScrollReveal>
+      <span class="section-label">How it works</span>
+      <h2 class="section-heading process__heading" id="process-heading">The Process</h2>
+    </ScrollReveal>
+
+    <div class="process__timeline">
+      {siteConfig.processSteps.map((step, i) => (
+        <ScrollReveal delay={i * 80}>
+          <div class="process__step">
+            <div class="process__step-marker">
+              <span class="process__step-num">{String(step.num).padStart(2, '0')}</span>
+              <span class="process__step-line" aria-hidden="true"></span>
+            </div>
+            <div class="process__step-content">
+              <h3 class="process__step-title">{step.title}</h3>
+              <p class="process__step-desc">{step.desc}</p>
+            </div>
+          </div>
+        </ScrollReveal>
+      ))}
+    </div>
+  </div>
+</section>

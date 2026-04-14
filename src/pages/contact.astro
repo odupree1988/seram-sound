@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactSection from '../components/contact/ContactSection.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<BaseLayout
+  title={`Contact | ${siteConfig.metadata.siteName}`}
+  description="Get a quote for custom music scoring. Tell me about your project and I'll get back to you within 24 hours."
+  hideStickyCTA={true}
+>
+  <div class="contact-page">
+    <ContactSection />
+  </div>
+</BaseLayout>
+
+<style>
+  @reference "tailwindcss";
+  .contact-page {
+    @apply pt-16;
+  }
+</style>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://seramsound.com/sitemap-index.xml

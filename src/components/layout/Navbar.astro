@@ -1,0 +1,80 @@
+---
+import './Navbar.css';
+import ThemeToggle from '../ui/ThemeToggle.astro';
+import { siteConfig } from '../../data/siteConfig';
+---
+
+<nav class="navbar" id="navbar" aria-label="Main navigation">
+  <div class="navbar__inner">
+    <a href="/" class="navbar__brand" aria-label={`${siteConfig.name} - Home`}>
+      <span class="navbar__dot" aria-hidden="true"></span>
+      <span class="navbar__name">seram.sound</span>
+    </a>
+
+    <div class="navbar__links" id="navbar-links">
+      {siteConfig.navLinks.map((link) => (
+        <a href={link.href} class="navbar__link">{link.label}</a>
+      ))}
+      <ThemeToggle />
+      <a href="/contact" class="btn--nav">Get a Quote</a>
+    </div>
+
+    <button
+      class="navbar__hamburger"
+      id="navbar-hamburger"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="navbar-mobile-overlay"
+    >
+      <span class="navbar__hamburger-line" aria-hidden="true"></span>
+      <span class="navbar__hamburger-line" aria-hidden="true"></span>
+      <span class="navbar__hamburger-line" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="navbar__overlay" id="navbar-mobile-overlay" aria-hidden="true">
+    <div class="navbar__overlay-content">
+      {siteConfig.navLinks.map((link) => (
+        <a href={link.href} class="navbar__overlay-link">{link.label}</a>
+      ))}
+      <a href="/contact" class="btn--primary navbar__overlay-cta">
+        Get a Quote
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const hamburger = document.getElementById('navbar-hamburger');
+  const overlay = document.getElementById('navbar-mobile-overlay');
+
+  // Glass blur on scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      navbar?.classList.add('navbar--scrolled');
+    } else {
+      navbar?.classList.remove('navbar--scrolled');
+    }
+  });
+
+  // Mobile menu toggle
+  hamburger?.addEventListener('click', () => {
+    const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', String(!isOpen));
+    overlay?.setAttribute('aria-hidden', String(isOpen));
+    hamburger.classList.toggle('navbar__hamburger--open');
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  });
+
+  // Close overlay on link click
+  overlay?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      hamburger?.setAttribute('aria-expanded', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+      hamburger?.classList.remove('navbar__hamburger--open');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

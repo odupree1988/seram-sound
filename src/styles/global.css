@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* ============================================
+   GLOBAL TOKENS — Midnight Teal
+   ============================================ */
+
+:root {
+  /* Backgrounds */
+  --bg-primary: #0c0e12;
+  --bg-secondary: #1a1d24;
+  --bg-tertiary: #252830;
+  --bg-hover: #2e323c;
+
+  /* Text */
+  --text-primary: #e4e8ec;
+  --text-secondary: #8c94a0;
+  --text-tertiary: #5c6370;
+
+  /* Accent (Teal) */
+  --accent: #48c8b4;
+  --accent-hover: #36a896;
+  --accent-subtle: rgba(72, 200, 180, 0.10);
+  --accent-glow: rgba(72, 200, 180, 0.06);
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.12);
+
+  /* Font Families */
+  --font-display: 'Geist', sans-serif;
+  --font-heading: 'Geist', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  --font-body: 'Geist', sans-serif;
+
+  /* Transitions */
+  --transition-fast: 200ms ease;
+  --transition-base: 250ms ease;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f0f2f4;
+  --bg-secondary: #e2e5e8;
+  --bg-tertiary: #d4d8dc;
+  --bg-hover: #c8ccd2;
+
+  --text-primary: #141820;
+  --text-secondary: #4a5260;
+  --text-tertiary: #7a8290;
+
+  --accent: #1e8273;
+  --accent-hover: #166b5e;
+  --accent-subtle: rgba(30, 130, 115, 0.10);
+  --accent-glow: rgba(30, 130, 115, 0.06);
+
+  --border-subtle: rgba(0, 0, 0, 0.07);
+  --border-hover: rgba(0, 0, 0, 0.13);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+html {
+  @apply scroll-smooth;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body {
+  @apply flex flex-col min-h-screen;
+  @apply text-base leading-relaxed antialiased;
+  font-family: var(--font-body);
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--bg-primary);
+}
+
+:focus-visible {
+  @apply outline-offset-2;
+  outline: 2px solid var(--accent);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/8;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-white/15;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  @apply bg-black/12;
+}
+
+/* Skip to content */
+.skip-to-content {
+  @apply absolute z-50 px-4 py-2;
+  @apply text-xs uppercase no-underline rounded-none;
+  @apply -top-full left-4;
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+}
+
+.skip-to-content:focus {
+  @apply top-4;
+}

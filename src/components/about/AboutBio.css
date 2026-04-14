@@ -1,0 +1,36 @@
+@reference "tailwindcss";
+/* ============================================
+   ABOUT BIO
+   ============================================ */
+
+.about-bio {
+  @apply py-24;
+  background: var(--bg-primary);
+}
+
+.about-bio__inner {
+  @apply mx-auto px-6 lg:px-12 max-w-3xl;
+}
+
+.about-bio__heading {
+  @apply mt-4 mb-12;
+}
+
+.about-bio__content {
+  @apply flex flex-col gap-6;
+}
+
+.about-bio__text {
+  @apply text-base;
+  font-family: var(--font-body);
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.about-bio__badge {
+  @apply mt-4;
+}
+
+.about-bio__cta {
+  @apply mt-4;
+}

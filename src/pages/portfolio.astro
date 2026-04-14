@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkCard from '../components/portfolio/WorkCard.astro';
+import ScrollReveal from '../components/ui/ScrollReveal.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<BaseLayout
+  title={`Portfolio | ${siteConfig.metadata.siteName}`}
+  description="Listen to original scores composed for short films, branded content, documentaries, and more. Every project 100% human-composed."
+>
+  <section class="portfolio-page">
+    <div class="portfolio-page__inner">
+      <ScrollReveal>
+        <span class="section-label">Portfolio</span>
+        <h1 class="section-heading portfolio-page__heading">All Projects</h1>
+        <p class="portfolio-page__intro">
+          A selection of original scores composed for short-form video, branded content, and independent film.
+        </p>
+      </ScrollReveal>
+
+      <div class="portfolio-page__grid">
+        {siteConfig.portfolioItems.map((item, i) => (
+          <ScrollReveal delay={i * 80}>
+            <WorkCard
+              title={item.title}
+              genre={item.genre}
+              description={item.description}
+              audioSrc={item.audioSrc}
+            />
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  @reference "tailwindcss";
+  .portfolio-page {
+    @apply py-32;
+    background: var(--bg-primary);
+  }
+
+  .portfolio-page__inner {
+    @apply mx-auto px-6 lg:px-12;
+    max-width: 1280px;
+  }
+
+  .portfolio-page__heading {
+    @apply mt-4 mb-4;
+  }
+
+  .portfolio-page__intro {
+    @apply mb-12;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    letter-spacing: 0.3px;
+    max-width: 560px;
+  }
+
+  .portfolio-page__grid {
+    @apply grid gap-8;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @media (min-width: 768px) {
+    .portfolio-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .portfolio-page__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

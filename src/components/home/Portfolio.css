@@ -1,0 +1,25 @@
+@reference "tailwindcss";
+/* ============================================
+   PORTFOLIO SECTION
+   ============================================ */
+
+.portfolio {
+  @apply py-24;
+  background: var(--bg-primary);
+}
+
+.portfolio__inner {
+  @apply mx-auto px-6 lg:px-12 max-w-7xl;
+}
+
+.portfolio__heading {
+  @apply mt-4 mb-12;
+}
+
+.portfolio__grid {
+  @apply grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.portfolio__cta {
+  @apply flex justify-center mt-12;
+}

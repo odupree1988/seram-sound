@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutBio from '../components/about/AboutBio.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<BaseLayout
+  title={`About | ${siteConfig.metadata.siteName}`}
+  description="Meet the composer behind Seram Sound. 10+ years of experience, 100% human-composed music, direct collaboration with every client."
+>
+  <div class="about-page">
+    <AboutBio />
+  </div>
+</BaseLayout>
+
+<style>
+  @reference "tailwindcss";
+  .about-page {
+    @apply pt-16;
+  }
+</style>

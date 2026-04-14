@@ -1,0 +1,25 @@
+@reference "tailwindcss";
+/* ============================================
+   SECTION LABELS
+   ============================================ */
+
+.section-label {
+  @apply inline-flex items-center gap-4 uppercase;
+  font-size: 11px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  letter-spacing: 3px;
+}
+
+.section-label::before {
+  content: '';
+  @apply block w-12 h-px;
+  background: var(--accent);
+}
+
+.section-heading {
+  @apply font-bold leading-snug;
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 4vw, 32px);
+  color: var(--text-primary);
+}

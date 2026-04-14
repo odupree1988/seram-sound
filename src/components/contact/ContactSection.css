@@ -1,0 +1,99 @@
+@reference "tailwindcss";
+/* ============================================
+   CONTACT SECTION
+   ============================================ */
+
+.contact {
+  @apply py-24;
+  background: var(--bg-primary);
+}
+
+.contact__inner {
+  @apply mx-auto px-6 lg:px-12 max-w-3xl;
+}
+
+.contact__heading {
+  @apply mt-4 mb-4;
+}
+
+.contact__subtext {
+  @apply mb-12 text-sm;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  letter-spacing: 0.3px;
+}
+
+.contact__form {
+  @apply flex flex-col gap-6;
+}
+
+.contact__form-row {
+  @apply grid gap-6 grid-cols-1 sm:grid-cols-2;
+}
+
+.contact__field {
+  @apply flex flex-col gap-2;
+}
+
+.contact__label {
+  @apply uppercase;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+}
+
+.contact__input {
+  @apply w-full px-4 py-3 rounded-none text-sm;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: border-color var(--transition-fast);
+}
+
+.contact__input:focus {
+  @apply outline-none;
+  border-color: var(--accent);
+  border-left: 3px solid var(--accent);
+}
+
+.contact__input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.contact__select {
+  @apply cursor-pointer appearance-none pr-9 bg-no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238c94a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-position: right 12px center;
+}
+
+.contact__textarea {
+  @apply resize-y min-h-30;
+}
+
+.contact__submit {
+  @apply self-start mt-2;
+}
+
+.contact__socials {
+  @apply flex flex-col gap-4 mt-12 pt-8;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.contact__social-link {
+  @apply inline-flex items-center gap-3 no-underline;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.contact__social-link:hover {
+  color: var(--accent);
+}
+
+.contact__social-link svg {
+  @apply shrink-0 w-4.5 h-4.5;
+}

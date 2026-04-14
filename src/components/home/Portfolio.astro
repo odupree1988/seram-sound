@@ -1,0 +1,39 @@
+---
+import './Portfolio.css';
+import WorkCard from '../portfolio/WorkCard.astro';
+import ScrollReveal from '../ui/ScrollReveal.astro';
+import { siteConfig } from '../../data/siteConfig';
+
+const featuredItems = siteConfig.portfolioItems.slice(0, 3);
+---
+
+<section class="portfolio" aria-labelledby="portfolio-heading">
+  <div class="portfolio__inner">
+    <ScrollReveal>
+      <span class="section-label">Portfolio</span>
+      <h2 class="section-heading portfolio__heading" id="portfolio-heading">Featured Work</h2>
+    </ScrollReveal>
+
+    <div class="portfolio__grid">
+      {featuredItems.map((item, i) => (
+        <ScrollReveal delay={i * 100}>
+          <WorkCard
+            title={item.title}
+            genre={item.genre}
+            description={item.description}
+            audioSrc={item.audioSrc}
+          />
+        </ScrollReveal>
+      ))}
+    </div>
+
+    <ScrollReveal>
+      <div class="portfolio__cta">
+        <a href="/portfolio" class="btn--secondary">
+          View all projects
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </ScrollReveal>
+  </div>
+</section>

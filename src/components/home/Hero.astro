@@ -1,0 +1,104 @@
+---
+import './Hero.css';
+import HumanBadge from '../ui/HumanBadge.astro';
+import { siteConfig } from '../../data/siteConfig';
+---
+
+<section class="hero" id="hero">
+  <!-- Noise texture overlay -->
+  <div class="hero__noise" aria-hidden="true">
+    <svg width="100%" height="100%">
+      <filter id="hero-noise">
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#hero-noise)"/>
+    </svg>
+  </div>
+
+  <div class="hero__inner">
+    <!-- Left content -->
+    <div class="hero__content">
+      <span class="section-label">Custom Scoring</span>
+
+      <h1 class="hero__name">
+        <span class="hero__name-line hero__name-line--solid">SERAM</span>
+        <span class="hero__name-line hero__name-line--outlined">SOUND</span>
+      </h1>
+
+      <div class="hero__divider" aria-hidden="true"></div>
+
+      <p class="hero__intro">{siteConfig.heroIntro}</p>
+
+      <div class="hero__ctas">
+        <a href="/portfolio" class="btn--primary">
+          Hear my work
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+        <div class="hero__cta-divider" aria-hidden="true"></div>
+        <a href="/contact" class="btn--secondary">
+          Get a quote
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="hero__pills">
+        {siteConfig.serviceTypes.slice(0, 6).map((service) => (
+          <span class="pill">{service}</span>
+        ))}
+      </div>
+
+      <div class="hero__badge">
+        <HumanBadge />
+      </div>
+    </div>
+
+    <!-- Right decorative DAW visual -->
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__daw">
+        <div class="hero__daw-chrome">
+          <span class="hero__daw-dot"></span>
+          <span class="hero__daw-dot"></span>
+          <span class="hero__daw-dot"></span>
+          <span class="hero__daw-title">Session — Untitled</span>
+        </div>
+        <div class="hero__daw-timeline">
+          <div class="hero__daw-track">
+            <span class="hero__daw-track-label">Strings</span>
+            <div class="hero__daw-waveform hero__daw-waveform--1"></div>
+          </div>
+          <div class="hero__daw-track">
+            <span class="hero__daw-track-label">Piano</span>
+            <div class="hero__daw-waveform hero__daw-waveform--2"></div>
+          </div>
+          <div class="hero__daw-track">
+            <span class="hero__daw-track-label">Perc</span>
+            <div class="hero__daw-waveform hero__daw-waveform--3"></div>
+          </div>
+          <div class="hero__daw-track">
+            <span class="hero__daw-track-label">Amb</span>
+            <div class="hero__daw-waveform hero__daw-waveform--4"></div>
+          </div>
+          <div class="hero__daw-track">
+            <span class="hero__daw-track-label">Master</span>
+            <div class="hero__daw-waveform hero__daw-waveform--5"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stacked card behind -->
+      <div class="hero__daw-card-behind">
+        <div class="hero__daw-chrome">
+          <span class="hero__daw-dot"></span>
+          <span class="hero__daw-dot"></span>
+          <span class="hero__daw-dot"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero__scroll" aria-hidden="true">
+    <span class="hero__scroll-text">Scroll</span>
+    <span class="hero__scroll-line"></span>
+  </div>
+</section>

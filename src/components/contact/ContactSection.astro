@@ -1,0 +1,81 @@
+---
+import './ContactSection.css';
+import ScrollReveal from '../ui/ScrollReveal.astro';
+import { siteConfig } from '../../data/siteConfig';
+---
+
+<section class="contact" aria-labelledby="contact-heading">
+  <div class="contact__inner">
+    <ScrollReveal>
+      <span class="section-label">Contact</span>
+      <h2 class="section-heading contact__heading" id="contact-heading">{siteConfig.contactHeading}</h2>
+      <p class="contact__subtext">{siteConfig.contactSubtext}</p>
+    </ScrollReveal>
+
+    <ScrollReveal delay={100}>
+      <form class="contact__form" action="#" method="POST" data-contact-form>
+        <div class="contact__form-row">
+          <div class="contact__field">
+            <label for="contact-name" class="contact__label">Name</label>
+            <input type="text" id="contact-name" name="name" class="contact__input" required autocomplete="name" />
+          </div>
+          <div class="contact__field">
+            <label for="contact-email" class="contact__label">Email</label>
+            <input type="email" id="contact-email" name="email" class="contact__input" required autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="contact__form-row">
+          <div class="contact__field">
+            <label for="contact-type" class="contact__label">Project Type</label>
+            <select id="contact-type" name="projectType" class="contact__input contact__select">
+              <option value="">Select a type</option>
+              <option value="short-film">Short Film</option>
+              <option value="branded-content">Branded Content</option>
+              <option value="documentary">Documentary</option>
+              <option value="web-series">Web Series</option>
+              <option value="trailer">Trailer</option>
+              <option value="social-media">Social Media</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="contact__field">
+            <label for="contact-budget" class="contact__label">Budget Range</label>
+            <select id="contact-budget" name="budget" class="contact__input contact__select">
+              <option value="">Select a range</option>
+              <option value="under-1k">Under $1,000</option>
+              <option value="1k-3k">$1,000 - $3,000</option>
+              <option value="3k-5k">$3,000 - $5,000</option>
+              <option value="5k-10k">$5,000 - $10,000</option>
+              <option value="10k-plus">$10,000+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="contact__field">
+          <label for="contact-deadline" class="contact__label">Deadline</label>
+          <input type="date" id="contact-deadline" name="deadline" class="contact__input" />
+        </div>
+
+        <div class="contact__field">
+          <label for="contact-message" class="contact__label">Project Description</label>
+          <textarea id="contact-message" name="message" class="contact__input contact__textarea" rows="5" required placeholder="Tell me about your project, creative direction, and timeline..."></textarea>
+        </div>
+
+        <button type="submit" class="btn--primary contact__submit">
+          Send message
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </button>
+      </form>
+    </ScrollReveal>
+
+    <ScrollReveal delay={200}>
+      <div class="contact__socials">
+        <a href={`mailto:${siteConfig.email}`} class="contact__social-link" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="0"/><path d="M22 4L12 13 2 4"/></svg>
+          <span>{siteConfig.email}</span>
+        </a>
+      </div>
+    </ScrollReveal>
+  </div>
+</section>

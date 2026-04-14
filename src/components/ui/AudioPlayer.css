@@ -1,0 +1,75 @@
+@reference "tailwindcss";
+/* ============================================
+   AUDIO PLAYER
+   ============================================ */
+
+.audio-player {
+  @apply flex items-center gap-4;
+  @apply px-5 py-4 rounded-none;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent);
+}
+
+.audio-player__play {
+  @apply flex items-center justify-center shrink-0 cursor-pointer;
+  @apply w-11 h-11 rounded-none;
+  background: var(--accent-subtle);
+  border: 1px solid rgba(72, 200, 180, 0.18);
+  color: var(--accent);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.audio-player__play:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+.audio-player__play svg {
+  @apply w-4 h-4;
+}
+
+.audio-player__icon--pause {
+  @apply hidden;
+}
+
+.audio-player--playing .audio-player__icon--play {
+  @apply hidden;
+}
+
+.audio-player--playing .audio-player__icon--pause {
+  @apply block;
+}
+
+.audio-player__info {
+  @apply flex flex-col gap-2 flex-1 min-w-0;
+}
+
+.audio-player__title {
+  @apply truncate text-sm font-semibold;
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+}
+
+.audio-player__progress-wrapper {
+  @apply w-full;
+}
+
+.audio-player__progress {
+  @apply w-full h-1 cursor-pointer rounded-none;
+  background: var(--border-subtle);
+}
+
+.audio-player__progress-bar {
+  @apply h-full w-0 rounded-none;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+
+.audio-player__time {
+  @apply shrink-0;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+  letter-spacing: 0.5px;
+}

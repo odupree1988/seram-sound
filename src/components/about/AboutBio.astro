@@ -1,0 +1,34 @@
+---
+import './AboutBio.css';
+import ScrollReveal from '../ui/ScrollReveal.astro';
+import HumanBadge from '../ui/HumanBadge.astro';
+import { siteConfig } from '../../data/siteConfig';
+---
+
+<section class="about-bio" aria-labelledby="about-heading">
+  <div class="about-bio__inner">
+    <ScrollReveal>
+      <span class="section-label">About</span>
+      <h2 class="section-heading about-bio__heading" id="about-heading">The Composer</h2>
+    </ScrollReveal>
+
+    <ScrollReveal delay={100}>
+      <div class="about-bio__content">
+        {siteConfig.aboutBio.map((paragraph) => (
+          <p class="about-bio__text">{paragraph}</p>
+        ))}
+
+        <div class="about-bio__badge">
+          <HumanBadge />
+        </div>
+
+        <div class="about-bio__cta">
+          <a href="/contact" class="btn--primary">
+            Work with me
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+      </div>
+    </ScrollReveal>
+  </div>
+</section>

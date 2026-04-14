@@ -1,0 +1,52 @@
+@reference "tailwindcss";
+/* ============================================
+   SERVICES MARQUEE
+   ============================================ */
+
+.services {
+  @apply relative overflow-hidden py-6;
+  background: var(--bg-secondary);
+}
+
+.services__marquee {
+  @apply relative;
+  mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+.services__track {
+  @apply flex items-center gap-8 whitespace-nowrap;
+  animation: marquee 30s linear infinite;
+}
+
+.services__marquee:hover .services__track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services__track {
+    animation: none;
+  }
+}
+
+.services__item {
+  @apply inline-flex items-center gap-2 shrink-0;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+  transition: color var(--transition-fast);
+}
+
+.services__item:hover {
+  color: var(--text-secondary);
+}
+
+.services__icon {
+  @apply flex items-center justify-center w-4 h-4 opacity-50;
+  color: var(--accent);
+}
+
+.services__icon svg {
+  @apply w-3.5 h-3.5;
+}

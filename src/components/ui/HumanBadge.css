@@ -1,0 +1,21 @@
+@reference "tailwindcss";
+/* ============================================
+   HUMAN BADGE
+   ============================================ */
+
+.human-badge {
+  @apply inline-flex items-center gap-2;
+  @apply px-4 py-2 rounded-none text-xs;
+  background: var(--accent-subtle);
+  border: 1px solid rgba(72, 200, 180, 0.22);
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  color: var(--accent);
+}
+
+.human-badge__dot {
+  @apply block shrink-0 w-1.5 h-1.5 rounded-full;
+  background: var(--accent);
+  animation: pulse 3s ease-in-out infinite;
+}

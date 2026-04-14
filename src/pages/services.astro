@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProcessSteps from '../components/services/ProcessSteps.astro';
+import ScrollReveal from '../components/ui/ScrollReveal.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<BaseLayout
+  title={`Services | ${siteConfig.metadata.siteName}`}
+  description="Custom music scoring for short films, branded content, documentaries, web series, trailers, and social media. See the process and what to expect."
+>
+  <section class="services-page">
+    <div class="services-page__inner">
+      <ScrollReveal>
+        <span class="section-label">Services</span>
+        <h1 class="section-heading services-page__heading">What I Do</h1>
+        <p class="services-page__intro">
+          I compose original music tailored to your project. Whether it's a short film, branded campaign, or documentary, every score is built from scratch to serve your story.
+        </p>
+      </ScrollReveal>
+
+      <ScrollReveal delay={100}>
+        <div class="services-page__grid">
+          {siteConfig.serviceTypes.map((service) => (
+            <div class="services-page__card">
+              <span class="services-page__card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18V5l12-2v13"/>
+                  <circle cx="6" cy="18" r="3"/>
+                  <circle cx="18" cy="16" r="3"/>
+                </svg>
+              </span>
+              <span class="services-page__card-name">{service}</span>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  <ProcessSteps />
+
+  <section class="services-pricing">
+    <div class="services-pricing__inner">
+      <ScrollReveal>
+        <span class="section-label">Pricing</span>
+        <h2 class="section-heading services-pricing__heading">How Pricing Works</h2>
+        <div class="services-pricing__content">
+          <p class="services-pricing__text">
+            Every project is unique, so I provide custom quotes based on your specific needs. Pricing depends on the length of your project, complexity of the score, timeline, and licensing requirements.
+          </p>
+          <p class="services-pricing__text">
+            Most projects for short-form content start at $1,000. I require a 50% deposit to begin work, with the remaining balance due upon final delivery. Up to two rounds of revisions are included in every quote.
+          </p>
+          <a href="/contact" class="btn--primary services-pricing__cta">
+            Request a quote
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  @reference "tailwindcss";
+  .services-page {
+    @apply py-32;
+    background: var(--bg-primary);
+  }
+
+  .services-page__inner {
+    @apply mx-auto px-6 lg:px-12;
+    max-width: 1280px;
+  }
+
+  .services-page__heading {
+    @apply mt-4 mb-4;
+  }
+
+  .services-page__intro {
+    @apply mb-12;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    letter-spacing: 0.3px;
+    max-width: 560px;
+  }
+
+  .services-page__grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 768px) {
+    .services-page__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .services-page__card {
+    @apply flex items-center gap-3;
+    padding: 16px 20px;
+    border-radius: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--accent);
+    transition: border-color var(--transition-fast);
+  }
+
+  .services-page__card:hover {
+    border-color: var(--border-hover);
+  }
+
+  .services-page__card-icon {
+    @apply flex-shrink-0;
+    width: 20px;
+    height: 20px;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+
+  .services-page__card-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .services-page__card-name {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+  }
+
+  .services-pricing {
+    @apply py-24;
+    background: var(--bg-secondary);
+  }
+
+  .services-pricing__inner {
+    @apply mx-auto px-6 lg:px-12;
+    max-width: 800px;
+  }
+
+  .services-pricing__heading {
+    @apply mt-4 mb-8;
+  }
+
+  .services-pricing__content {
+    @apply flex flex-col gap-6;
+  }
+
+  .services-pricing__text {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .services-pricing__cta {
+    @apply mt-4;
+  }
+</style>

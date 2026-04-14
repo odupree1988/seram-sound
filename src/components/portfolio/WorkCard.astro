@@ -1,0 +1,44 @@
+---
+import './WorkCard.css';
+
+interface Props {
+  title: string;
+  genre: string;
+  description: string;
+  audioSrc: string;
+}
+
+const { title, genre, description, audioSrc } = Astro.props;
+
+const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20, 16, 7, 12, 22, 16, 9, 18, 14, 7];
+---
+
+<article class="work-card">
+  <div class="work-card__accent" aria-hidden="true"></div>
+  <div class="work-card__glow" aria-hidden="true"></div>
+  <div class="work-card__body">
+    <div class="work-card__visual">
+      <div class="work-card__waveform" aria-hidden="true">
+        {waveformBars.map((h) => (
+          <span class="work-card__bar" style={`height: ${h}px`}></span>
+        ))}
+      </div>
+    </div>
+
+    <span class="work-card__genre">{genre}</span>
+    <h3 class="work-card__title">{title}</h3>
+    <p class="work-card__desc">{description}</p>
+
+    <div class="work-card__player">
+      <button class="work-card__play" aria-label={`Play ${title}`} data-audio-src={audioSrc}>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <polygon points="5,3 19,12 5,21"/>
+        </svg>
+      </button>
+      <div class="work-card__progress">
+        <div class="work-card__progress-bar"></div>
+      </div>
+      <span class="work-card__time">0:00</span>
+    </div>
+  </div>
+</article>

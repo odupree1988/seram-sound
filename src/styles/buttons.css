@@ -1,0 +1,113 @@
+@reference "tailwindcss";
+/* ============================================
+   BUTTONS — Sharp Block CTA System
+   ============================================ */
+
+/* Primary: Transparent bg, 1px border, 3px left accent bar */
+.btn--primary {
+  @apply inline-flex items-center gap-2.5;
+  @apply px-7 py-3 rounded-none bg-transparent;
+  @apply text-xs uppercase no-underline cursor-pointer;
+  border: 1px solid var(--border-hover);
+  border-left: 3px solid var(--accent);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  transition: all var(--transition-base);
+}
+
+.btn--primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  border-left-color: var(--accent);
+  color: var(--bg-primary);
+}
+
+.btn--primary svg {
+  @apply w-3 h-3 fill-none stroke-current;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--transition-base);
+}
+
+.btn--primary:hover svg {
+  @apply translate-x-0.5;
+}
+
+/* Secondary: Bottom-border underline block */
+.btn--secondary {
+  @apply inline-flex items-center gap-2;
+  @apply pb-1 bg-transparent border-0;
+  @apply text-xs uppercase no-underline cursor-pointer;
+  border-bottom: 2px solid var(--border-hover);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  transition: all var(--transition-base);
+}
+
+.btn--secondary:hover {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn--secondary svg {
+  @apply w-2.75 h-2.75 fill-none stroke-current;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--transition-base);
+}
+
+.btn--secondary:hover svg {
+  @apply translate-x-0.75;
+}
+
+/* Nav Pill: Mini left-bar block */
+.btn--nav {
+  @apply inline-block px-5 py-2 rounded-none bg-transparent;
+  @apply uppercase no-underline cursor-pointer;
+  font-size: 11px;
+  border: 1px solid var(--border-hover);
+  border-left: 2px solid var(--text-tertiary);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  transition: all var(--transition-base);
+}
+
+.btn--nav:hover {
+  border-color: var(--accent);
+  border-left-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Sticky / Floating CTA */
+.btn--sticky {
+  @apply inline-flex items-center gap-2;
+  @apply px-6 py-2.5 rounded-none border-0;
+  @apply uppercase no-underline cursor-pointer;
+  @apply text-white;
+  font-size: 11px;
+  background: var(--accent);
+  border-left: 3px solid #fff;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  transition: background var(--transition-base);
+}
+
+[data-theme="light"] .btn--sticky {
+  border-left-color: var(--bg-primary);
+}
+
+.btn--sticky:hover {
+  background: var(--accent-hover);
+}
+
+.btn--sticky svg {
+  @apply w-2.5 h-2.5 fill-none stroke-current;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

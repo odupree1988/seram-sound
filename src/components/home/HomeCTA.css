@@ -1,0 +1,37 @@
+@reference "tailwindcss";
+/* ============================================
+   HOME CTA
+   ============================================ */
+
+.home-cta {
+  @apply py-24;
+  background: var(--bg-secondary);
+}
+
+.home-cta__inner {
+  @apply mx-auto px-6 lg:px-12 text-center max-w-3xl;
+}
+
+.home-cta__heading {
+  @apply font-bold leading-snug;
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 4vw, 36px);
+  color: var(--text-primary);
+}
+
+.home-cta__subtext {
+  @apply mt-4 mb-8 text-sm;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  letter-spacing: 0.3px;
+}
+
+.home-cta__actions {
+  @apply flex items-center justify-center gap-6 flex-wrap;
+}
+
+.home-cta__divider {
+  @apply hidden sm:block w-px h-8;
+  background: var(--border-hover);
+}

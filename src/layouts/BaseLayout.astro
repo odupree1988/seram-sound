@@ -1,0 +1,104 @@
+---
+import '../styles/global.css';
+import '../styles/typography.css';
+import '../styles/buttons.css';
+import '../styles/pills.css';
+import '../styles/section-label.css';
+import '../styles/animations.css';
+import '../styles/theme-toggle.css';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import ThemeToggleMobile from '../components/ui/ThemeToggleMobile.astro';
+import StickyGetQuote from '../components/ui/StickyGetQuote.astro';
+import { siteConfig } from '../data/siteConfig';
+
+interface Props {
+  title?: string;
+  description?: string;
+  hideStickyCTA?: boolean;
+}
+
+const {
+  title = siteConfig.metadata.title,
+  description = siteConfig.metadata.description,
+  hideStickyCTA = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.metadata.url);
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={siteConfig.metadata.keywords} />
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:site_name" content={siteConfig.metadata.siteName} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- FOUC Prevention -->
+    <script is:inline>
+      (function(){
+        try {
+          var t = localStorage.getItem('theme');
+          if (!t) {
+            t = window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', t);
+        } catch(e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <!-- Structured Data -->
+    <script is:inline type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Seram Sound",
+        "description": "Original, handcrafted music for short films, branded content, and digital media. 100% human-composed scoring.",
+        "url": "https://seramsound.com",
+        "email": "hello@seramsound.com",
+        "priceRange": "$$",
+        "makesOffer": {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Custom Music Scoring",
+            "description": "Original, handcrafted music scoring for short-form video, branded content, and independent film."
+          }
+        }
+      }
+    </script>
+
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main" class="skip-to-content">Skip to content</a>
+    <Navbar />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <ThemeToggleMobile />
+    {!hideStickyCTA && <StickyGetQuote />}
+  </body>
+</html>

@@ -1,0 +1,25 @@
+---
+import './StickyGetQuote.css';
+---
+
+<div class="sticky-cta" id="sticky-cta" aria-hidden="true">
+  <a href="/contact" class="btn--sticky">
+    Get a Quote
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+  </a>
+</div>
+
+<script>
+  const stickyCta = document.getElementById('sticky-cta');
+
+  window.addEventListener('scroll', () => {
+    const threshold = window.innerHeight * 0.8;
+    if (window.scrollY > threshold) {
+      stickyCta?.classList.add('sticky-cta--visible');
+      stickyCta?.setAttribute('aria-hidden', 'false');
+    } else {
+      stickyCta?.classList.remove('sticky-cta--visible');
+      stickyCta?.setAttribute('aria-hidden', 'true');
+    }
+  });
+</script>

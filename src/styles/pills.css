@@ -1,0 +1,23 @@
+@reference "tailwindcss";
+/* ============================================
+   PILLS — Left-bar variant, border-radius: 0
+   ============================================ */
+
+.pill {
+  @apply inline-flex items-center rounded-none;
+  @apply px-3 py-1.5 border-l-2;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  background: rgba(72, 200, 180, 0.08);
+  border: 1px solid rgba(72, 200, 180, 0.18);
+  border-left: 2px solid var(--accent);
+  color: rgba(72, 200, 180, 0.85);
+}
+
+[data-theme="light"] .pill {
+  background: rgba(30, 130, 115, 0.06);
+  border-color: rgba(30, 130, 115, 0.15);
+  border-left-color: var(--accent);
+  color: var(--text-secondary);
+}
