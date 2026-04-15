@@ -61,6 +61,31 @@
 
   /* Hero glow */
   --hero-glow: rgba(72, 200, 180, 0.08);
+
+  /* ---- Phase 2 tokens ---- */
+
+  /* Image filters (theme-aware photo treatment) */
+  --hero-img-filter: saturate(0.5) brightness(0.55);
+  --card-img-filter: saturate(0.7) brightness(0.8);
+  --card-img-hover-filter: saturate(0.9) brightness(0.9);
+  --about-img-filter: saturate(0.6) brightness(0.85);
+
+  /* Hero overlay (gradient overlays on background images) */
+  --hero-overlay-start: rgba(12, 14, 18, 0.15);
+  --hero-overlay-mid: rgba(12, 14, 18, 0.55);
+  --hero-overlay-end: rgba(12, 14, 18, 0.97);
+  --hero-glow-color: rgba(72, 200, 180, 0.08);
+
+  /* Button tokens */
+  --btn-primary-bg: var(--accent);
+  --btn-primary-color: #0c0e12;
+
+  /* Noise texture */
+  --noise-opacity: 0.03;
+
+  /* Marquee animation timing */
+  --marquee-speed-row1: 50s;
+  --marquee-speed-row2: 55s;
 }
 
 [data-theme="light"] {
@@ -93,6 +118,22 @@
   --glass-bg: color-mix(in srgb, var(--bg-primary) 70%, transparent);
 
   --hero-glow: rgba(30, 130, 115, 0.06);
+
+  /* Phase 2 light-mode overrides */
+  --hero-img-filter: saturate(0.6) brightness(0.45);
+  --card-img-filter: saturate(0.85) brightness(0.95);
+  --card-img-hover-filter: saturate(1) brightness(1);
+  --about-img-filter: saturate(0.7) brightness(0.9);
+
+  --hero-overlay-start: rgba(240, 242, 244, 0.0);
+  --hero-overlay-mid: rgba(240, 242, 244, 0.55);
+  --hero-overlay-end: rgba(240, 242, 244, 0.98);
+  --hero-glow-color: rgba(30, 130, 115, 0.06);
+
+  --btn-primary-bg: var(--accent);
+  --btn-primary-color: #ffffff;
+
+  --noise-opacity: 0.015;
 }
 
 /* ============================================
