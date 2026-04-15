@@ -5,10 +5,23 @@ import { siteConfig } from '../../data/siteConfig';
 ---
 
 <section class="home-cta" aria-labelledby="home-cta-heading">
+  <!-- Background image layer -->
+  <div class="home-cta__bg" aria-hidden="true">
+    <img
+      src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1920&q=80"
+      alt=""
+      class="home-cta__bg-img"
+      loading="lazy"
+    />
+  </div>
+
+  <!-- Gradient overlay (fades in from top AND bottom) -->
+  <div class="home-cta__overlay" aria-hidden="true"></div>
+
   <div class="home-cta__inner">
     <ScrollReveal>
-      <h2 class="home-cta__heading" id="home-cta-heading">{siteConfig.contactHeading}</h2>
-      <p class="home-cta__subtext">{siteConfig.contactSubtext}</p>
+      <h2 class="home-cta__heading" id="home-cta-heading">Let's work together.</h2>
+      <p class="home-cta__subtext">Have a project in mind? Tell me about it — I'd love to hear what you're building.</p>
       <div class="home-cta__actions">
         <a href="/contact" class="btn--primary">
           Start a project

@@ -1,15 +1,38 @@
 @reference "tailwindcss";
 /* ============================================
-   HOME CTA
+   HOME CTA — Atmospheric Phase 2
    ============================================ */
 
 .home-cta {
-  @apply py-24;
-  background: var(--surface-1);
+  @apply relative py-32 overflow-hidden;
+}
+
+/* Background image */
+.home-cta__bg {
+  @apply absolute inset-0;
+  z-index: 1;
+}
+
+.home-cta__bg-img {
+  @apply w-full h-full object-cover;
+  filter: var(--hero-img-filter);
+}
+
+/* Gradient overlay — fades in from top AND bottom */
+.home-cta__overlay {
+  @apply absolute inset-0;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    var(--bg-primary) 0%,
+    var(--hero-overlay-mid) 25%,
+    var(--hero-overlay-mid) 75%,
+    var(--bg-primary) 100%
+  );
 }
 
 .home-cta__inner {
-  @apply mx-auto px-6 lg:px-12 text-center max-w-3xl;
+  @apply relative z-10 mx-auto px-6 lg:px-12 text-center max-w-3xl;
 }
 
 .home-cta__heading {
@@ -20,11 +43,11 @@
 }
 
 .home-cta__subtext {
-  @apply mt-4 mb-8 text-sm;
-  font-family: var(--font-mono);
+  @apply mt-4 mb-8;
+  font-family: var(--font-body);
+  font-size: 16px;
   color: var(--text-secondary);
   line-height: 1.7;
-  letter-spacing: 0.3px;
 }
 
 .home-cta__actions {
