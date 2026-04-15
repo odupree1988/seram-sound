@@ -17,11 +17,11 @@
 }
 
 .contact__subtext {
-  @apply mb-12 text-sm;
-  font-family: var(--font-mono);
+  @apply mb-12;
+  font-family: var(--font-body);
+  font-size: 15px;
   color: var(--text-secondary);
   line-height: 1.7;
-  letter-spacing: 0.3px;
 }
 
 .contact__form {
