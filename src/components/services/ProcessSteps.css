@@ -1,6 +1,6 @@
 @reference "tailwindcss";
 /* ============================================
-   PROCESS STEPS
+   PROCESS STEPS — Timeline Phase 2
    ============================================ */
 
 .process {
@@ -17,38 +17,49 @@
 }
 
 .process__timeline {
-  @apply flex flex-col;
+  @apply relative flex flex-col;
+}
+
+/* Vertical connecting line */
+.process__timeline::before {
+  content: '';
+  @apply absolute top-0 bottom-0;
+  left: 23px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--accent), var(--border-subtle) 80%, transparent);
+  z-index: 1;
 }
 
 .process__step {
-  @apply flex gap-6;
+  @apply relative flex gap-6;
+  z-index: 2;
 }
 
 .process__step-marker {
-  @apply flex flex-col items-center shrink-0 w-10;
+  @apply flex flex-col items-center shrink-0;
+  width: 48px;
 }
 
 .process__step-num {
   @apply flex items-center justify-center shrink-0;
-  @apply w-10 h-10 rounded-none text-xs font-medium;
-  background: var(--accent-subtle);
-  border: 1px solid rgba(72, 200, 180, 0.18);
-  border-left: 2px solid var(--accent);
+  width: 48px;
+  height: 48px;
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent);
   font-family: var(--font-mono);
   color: var(--accent);
 }
 
 .process__step-line {
-  @apply block flex-1 w-px min-h-8;
-  background: var(--border-subtle);
-}
-
-.process__step:last-child .process__step-line {
   @apply hidden;
 }
 
 .process__step-content {
-  @apply pb-8;
+  @apply pb-10;
 }
 
 .process__step:last-child .process__step-content {
@@ -56,14 +67,17 @@
 }
 
 .process__step-title {
-  @apply text-lg font-semibold leading-10;
-  font-family: var(--font-heading);
+  @apply font-semibold;
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 48px;
   color: var(--text-primary);
 }
 
 .process__step-desc {
   @apply mt-2 text-sm;
   font-family: var(--font-body);
+  font-size: 14px;
   line-height: 1.7;
   color: var(--text-secondary);
 }
