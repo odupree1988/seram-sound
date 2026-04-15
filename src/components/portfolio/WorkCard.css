@@ -1,11 +1,11 @@
 @reference "tailwindcss";
 /* ============================================
-   WORK CARD
+   CASE STUDY CARD — Phase 2
    ============================================ */
 
-.work-card {
-  @apply relative overflow-hidden rounded-none h-full;
-  background: linear-gradient(160deg, #1e2128 0%, #1a1d24 45%, #1e2128 100%);
+.case-card {
+  @apply relative overflow-hidden rounded-none h-full flex flex-col;
+  background: var(--surface-1);
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-card);
   transition:
@@ -14,55 +14,53 @@
     box-shadow   var(--duration-reveal) var(--ease-out-expo);
 }
 
-[data-theme="light"] .work-card {
-  background: linear-gradient(160deg, #ffffff 0%, #f8f9fa 50%, #f0f2f4 100%);
-}
-
-.work-card:hover {
-  border-color: rgba(72, 200, 180, 0.25);
-  transform: translateY(-4px);
+.case-card:hover {
+  border-color: rgba(72, 200, 180, 0.2);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-elevated), var(--shadow-glow);
 }
 
-.work-card__accent {
-  @apply absolute top-0 left-0 right-0 h-0.5 opacity-50;
+/* Top accent line — hidden by default, visible on hover */
+.case-card__accent {
+  @apply absolute top-0 left-0 right-0 z-20;
+  height: 2px;
   background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-base);
 }
 
-.work-card__glow {
-  @apply absolute pointer-events-none;
-  top: -20%;
-  left: -20%;
-  width: 80%;
-  height: 80%;
-  background: radial-gradient(ellipse, rgba(72, 200, 180, 0.05) 0%, transparent 70%);
+.case-card:hover .case-card__accent {
+  opacity: 1;
 }
 
-.work-card__body {
-  @apply relative z-10 p-6 flex flex-col h-full;
+/* ---- Image header ---- */
+.case-card__img {
+  @apply relative overflow-hidden;
+  height: 200px;
 }
 
-.work-card__visual {
-  @apply flex items-center justify-center mb-6 pb-4 h-12;
-  border-bottom: 1px solid var(--border-subtle);
+.case-card__img-photo {
+  @apply w-full h-full object-cover;
+  filter: var(--card-img-filter);
+  transition: transform var(--transition-base), filter var(--transition-base);
 }
 
-.work-card__waveform {
-  @apply flex items-end gap-0.5 h-7;
+.case-card:hover .case-card__img-photo {
+  transform: scale(1.05);
+  filter: var(--card-img-hover-filter);
 }
 
-.work-card__bar {
-  @apply block shrink-0 w-0.75 opacity-40;
-  border-radius: 1.5px;
-  background: var(--accent);
-  transition: opacity var(--transition-fast);
+.case-card__img-overlay {
+  @apply absolute inset-0 pointer-events-none;
+  background: linear-gradient(180deg, transparent 40%, var(--surface-1) 100%);
 }
 
-.work-card:hover .work-card__bar {
-  @apply opacity-70;
+/* ---- Card body ---- */
+.case-card__body {
+  @apply relative z-10 p-6 flex flex-col flex-1;
 }
 
-.work-card__genre {
+.case-card__genre {
   @apply block mb-1 uppercase;
   font-size: 10px;
   font-family: var(--font-mono);
@@ -70,66 +68,80 @@
   letter-spacing: 0.5px;
 }
 
-.work-card__title {
+.case-card__title {
   @apply mb-2 text-lg font-semibold;
   font-family: var(--font-heading);
   color: var(--text-primary);
 }
 
-.work-card__desc {
+.case-card__desc {
   @apply mb-6 text-sm leading-relaxed flex-1;
   font-family: var(--font-body);
   color: var(--text-secondary);
 }
 
-/* Mini audio player in card */
-.work-card__player {
+/* ---- Audio player ---- */
+.case-card__player {
   @apply flex items-center gap-3 pt-4;
   border-top: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
 }
 
-.work-card__play {
+.case-card__play {
   @apply flex items-center justify-center shrink-0 cursor-pointer;
-  @apply w-9 h-9 rounded-none border-l-2;
+  @apply w-9 h-9 rounded-none;
   background: var(--accent-subtle);
   border: 1px solid rgba(72, 200, 180, 0.18);
-  border-left: 2px solid var(--accent);
   color: var(--accent);
   transition: background var(--transition-fast);
 }
 
-.work-card__play:hover {
+.case-card__play:hover {
   background: var(--accent);
   color: var(--bg-primary);
 }
 
-.work-card__play svg {
+.case-card__play svg {
   @apply w-3 h-3;
 }
 
-.work-card__icon--pause {
+.case-card__icon--pause {
   @apply hidden;
 }
 
-.work-card__player--playing .work-card__icon--play {
+.case-card__player--playing .case-card__icon--play {
   @apply hidden;
 }
 
-.work-card__player--playing .work-card__icon--pause {
+.case-card__player--playing .case-card__icon--pause {
   @apply block;
 }
 
-.work-card__progress {
+/* Waveform bars */
+.case-card__waveform {
+  @apply flex items-end gap-px shrink-0;
+  height: 28px;
+}
+
+.case-card__bar {
+  @apply block shrink-0;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  transition: opacity var(--transition-fast);
+}
+
+/* Progress slider */
+.case-card__progress {
   @apply relative flex-1 rounded-none cursor-pointer;
   height: 3px;
   background: var(--border-subtle);
-  /* Expand click/touch target without changing visual size */
   padding: 8px 0;
   background-clip: content-box;
 }
 
-.work-card__progress::after {
-  /* Scrub handle */
+.case-card__progress::after {
   content: '';
   @apply absolute rounded-full;
   width: 12px;
@@ -142,12 +154,12 @@
   pointer-events: none;
 }
 
-.work-card__progress:hover::after,
-.work-card__progress--dragging::after {
+.case-card__progress:hover::after,
+.case-card__progress--dragging::after {
   transform: translate(-50%, -50%) scale(1);
 }
 
-.work-card__progress-bar {
+.case-card__progress-bar {
   @apply absolute left-0 w-0 rounded-none;
   top: 8px;
   height: 3px;
@@ -156,22 +168,23 @@
   pointer-events: none;
 }
 
-.work-card__progress--dragging .work-card__progress-bar {
+.case-card__progress--dragging .case-card__progress-bar {
   transition: none;
 }
 
-.work-card__time {
+.case-card__time {
+  @apply shrink-0 text-right;
   font-size: 10px;
   font-family: var(--font-mono);
   color: var(--text-tertiary);
   letter-spacing: 0.5px;
 }
 
-.work-card__player--disabled {
+.case-card__player--disabled {
   @apply opacity-40;
 }
 
-.work-card__coming-soon {
+.case-card__coming-soon {
   font-size: 11px;
   font-family: var(--font-mono);
   color: var(--text-tertiary);

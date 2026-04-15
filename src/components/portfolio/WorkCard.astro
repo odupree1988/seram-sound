@@ -6,42 +6,54 @@ interface Props {
   genre: string;
   description: string;
   audioSrc: string;
+  imageSrc?: string;
 }
 
-const { title, genre, description, audioSrc } = Astro.props;
+const { title, genre, description, audioSrc, imageSrc } = Astro.props;
 
-const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20, 16, 7, 12, 22, 16, 9, 18, 14, 7];
+// Generate ~48 waveform bars with sine-curve height variation
+const waveformBars = Array.from({ length: 48 }, (_, i) => {
+  const height = Math.round(4 + 20 * Math.abs(Math.sin((i / 48) * Math.PI * 3)));
+  return height;
+});
 ---
 
-<article class="work-card">
-  <div class="work-card__accent" aria-hidden="true"></div>
-  <div class="work-card__glow" aria-hidden="true"></div>
-  <div class="work-card__body">
-    <div class="work-card__visual">
-      <div class="work-card__waveform" aria-hidden="true">
-        {waveformBars.map((h) => (
-          <span class="work-card__bar" style={`height: ${h}px`}></span>
-        ))}
-      </div>
-    </div>
+<article class="case-card">
+  <div class="case-card__accent" aria-hidden="true"></div>
 
-    <span class="work-card__genre">{genre}</span>
-    <h3 class="work-card__title">{title}</h3>
-    <p class="work-card__desc">{description}</p>
+  {imageSrc && (
+    <div class="case-card__img">
+      <img src={imageSrc} alt="" class="case-card__img-photo" loading="lazy" />
+      <div class="case-card__img-overlay" aria-hidden="true"></div>
+    </div>
+  )}
+
+  <div class="case-card__body">
+    <span class="case-card__genre">{genre}</span>
+    <h3 class="case-card__title">{title}</h3>
+    <p class="case-card__desc">{description}</p>
 
     {audioSrc ? (
-      <div class="work-card__player" data-workcard-player data-audio-src={audioSrc} data-track-title={title}>
-        <button class="work-card__play" aria-label={`Play ${title}`}>
-          <svg class="work-card__icon--play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <div class="case-card__player" data-workcard-player data-audio-src={audioSrc} data-track-title={title}>
+        <button class="case-card__play" aria-label={`Play ${title}`}>
+          <svg class="case-card__icon--play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
-          <svg class="work-card__icon--pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <svg class="case-card__icon--pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <rect x="5" y="3" width="4" height="18"/>
             <rect x="15" y="3" width="4" height="18"/>
           </svg>
         </button>
+        <div class="case-card__waveform" aria-hidden="true">
+          {waveformBars.map((h, i) => (
+            <span
+              class="case-card__bar"
+              style={`height: ${h}px; opacity: ${i < 19 ? 0.85 : 0.25}`}
+            ></span>
+          ))}
+        </div>
         <div
-          class="work-card__progress"
+          class="case-card__progress"
           role="slider"
           tabindex="0"
           aria-label={`Seek ${title}`}
@@ -50,13 +62,13 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
           aria-valuenow={0}
           aria-valuetext="0:00"
         >
-          <div class="work-card__progress-bar"></div>
+          <div class="case-card__progress-bar"></div>
         </div>
-        <span class="work-card__time">0:00</span>
+        <span class="case-card__time">0:00</span>
       </div>
     ) : (
-      <div class="work-card__player work-card__player--disabled">
-        <span class="work-card__coming-soon">Coming soon</span>
+      <div class="case-card__player case-card__player--disabled">
+        <span class="case-card__coming-soon">Coming soon</span>
       </div>
     )}
   </div>
@@ -70,10 +82,10 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
     const el = player as HTMLElement;
     const src = el.dataset.audioSrc;
     const trackTitle = el.dataset.trackTitle;
-    const playBtn = el.querySelector('.work-card__play') as HTMLButtonElement;
-    const progressBar = el.querySelector('.work-card__progress-bar') as HTMLElement;
-    const progressSlider = el.querySelector('.work-card__progress') as HTMLElement;
-    const timeDisplay = el.querySelector('.work-card__time') as HTMLElement;
+    const playBtn = el.querySelector('.case-card__play') as HTMLButtonElement;
+    const progressBar = el.querySelector('.case-card__progress-bar') as HTMLElement;
+    const progressSlider = el.querySelector('.case-card__progress') as HTMLElement;
+    const timeDisplay = el.querySelector('.case-card__time') as HTMLElement;
 
     let audio: HTMLAudioElement | null = null;
     let isPlaying = false;
@@ -84,7 +96,7 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
       audio.pause();
       audio.currentTime = 0;
       isPlaying = false;
-      el.classList.remove('work-card__player--playing');
+      el.classList.remove('case-card__player--playing');
       updateProgress(0);
       timeDisplay.textContent = formatTime(audio.duration || 0);
       updateAriaLabel();
@@ -130,7 +142,7 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
       });
       audio.addEventListener('ended', () => {
         isPlaying = false;
-        el.classList.remove('work-card__player--playing');
+        el.classList.remove('case-card__player--playing');
         updateProgress(0);
         updateAriaLabel();
       });
@@ -142,13 +154,13 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
       if (isPlaying) {
         audio.pause();
         isPlaying = false;
-        el.classList.remove('work-card__player--playing');
+        el.classList.remove('case-card__player--playing');
       } else {
         // Stop all other players first
         allPlayers.forEach((p) => { if (p.stop !== stopAndReset) p.stop(); });
         audio.play();
         isPlaying = true;
-        el.classList.add('work-card__player--playing');
+        el.classList.add('case-card__player--playing');
       }
       updateAriaLabel();
     }
@@ -197,7 +209,7 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
 
     function onDragEnd(clientX: number) {
       isDragging = false;
-      progressSlider.classList.remove('work-card__progress--dragging');
+      progressSlider.classList.remove('case-card__progress--dragging');
       const frac = getFraction(clientX);
       seekTo(frac);
       document.removeEventListener('mousemove', handleMouseMove);
@@ -215,7 +227,7 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
       e.preventDefault();
       initAudio();
       isDragging = true;
-      progressSlider.classList.add('work-card__progress--dragging');
+      progressSlider.classList.add('case-card__progress--dragging');
       onDragMove(e.clientX);
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
@@ -224,7 +236,7 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
     progressSlider?.addEventListener('touchstart', (e: TouchEvent) => {
       initAudio();
       isDragging = true;
-      progressSlider.classList.add('work-card__progress--dragging');
+      progressSlider.classList.add('case-card__progress--dragging');
       onDragMove(e.touches[0].clientX);
       document.addEventListener('touchmove', handleTouchMove, { passive: false });
       document.addEventListener('touchend', handleTouchEnd);
