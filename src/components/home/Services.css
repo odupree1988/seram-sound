@@ -1,52 +1,91 @@
 @reference "tailwindcss";
 /* ============================================
-   SERVICES MARQUEE
+   SERVICES MARQUEE — Two-Row Phase 2
    ============================================ */
 
-.services {
+.marquee-section {
   @apply relative overflow-hidden py-6;
   background: var(--surface-1);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.services__marquee {
-  @apply relative;
-  mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
-}
-
-.services__track {
-  @apply flex items-center gap-8 whitespace-nowrap;
-  animation: marquee 30s linear infinite;
-}
-
-.services__marquee:hover .services__track {
+/* Pause both rows on section hover */
+.marquee-section:hover .marquee-track {
   animation-play-state: paused;
 }
 
+.marquee-section__row {
+  @apply relative overflow-hidden;
+  padding: 6px 0;
+}
+
+/* Edge fade masks */
+.marquee-section__row::before,
+.marquee-section__row::after {
+  content: '';
+  @apply absolute top-0 bottom-0 z-10 pointer-events-none;
+  width: 80px;
+}
+
+.marquee-section__row::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--surface-1), transparent);
+}
+
+.marquee-section__row::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--surface-1), transparent);
+}
+
+.marquee-track {
+  @apply flex items-center gap-4 whitespace-nowrap;
+}
+
+.marquee-track--row1 {
+  animation: marquee var(--marquee-speed-row1) linear infinite;
+}
+
+.marquee-track--row2 {
+  animation: marquee-reverse var(--marquee-speed-row2) linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .services__track {
+  .marquee-track {
     animation: none;
   }
 }
 
-.services__item {
+.marquee-item {
   @apply inline-flex items-center gap-2 shrink-0;
-  font-size: 13px;
+  padding: 8px 16px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-0);
   font-family: var(--font-mono);
+  font-size: 12px;
   letter-spacing: 0.5px;
   color: var(--text-tertiary);
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
 }
 
-.services__item:hover {
-  color: var(--text-secondary);
-}
-
-.services__icon {
-  @apply flex items-center justify-center w-4 h-4 opacity-50;
+.marquee-item:hover {
   color: var(--accent);
+  border-color: rgba(72, 200, 180, 0.25);
+  background: var(--accent-subtle);
 }
 
-.services__icon svg {
-  @apply w-3.5 h-3.5;
+.marquee-item__icon {
+  @apply w-3.5 h-3.5 shrink-0;
+  color: var(--text-tertiary);
+  opacity: 0.5;
+  transition: color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.marquee-item:hover .marquee-item__icon {
+  color: var(--accent);
+  opacity: 1;
+}
+
+.marquee-item__label {
+  @apply block;
 }
