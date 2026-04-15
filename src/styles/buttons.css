@@ -88,17 +88,13 @@
   @apply inline-flex items-center gap-2;
   @apply px-6 py-2.5 rounded-none border-0;
   @apply uppercase no-underline cursor-pointer;
-  @apply text-white;
   font-size: 11px;
   background: var(--accent);
-  border-left: 3px solid #fff;
+  color: var(--bg-primary);
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
   font-family: var(--font-mono);
   letter-spacing: 1px;
   transition: background var(--transition-base);
-}
-
-[data-theme="light"] .btn--sticky {
-  border-left-color: var(--bg-primary);
 }
 
 .btn--sticky:hover {
