@@ -74,7 +74,7 @@
 }
 
 .navbar__hamburger-line {
-  @apply block w-5;
+  @apply block w-7;
   height: 1.5px;
   background: var(--text-secondary);
   transition: transform var(--transition-base), opacity var(--transition-base);
