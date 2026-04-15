@@ -39,10 +39,7 @@ import { siteConfig } from '../../data/siteConfig';
       {siteConfig.navLinks.map((link) => (
         <a href={link.href} class="navbar__overlay-link">{link.label}</a>
       ))}
-      <a href="/contact" class="btn--primary navbar__overlay-cta">
-        Get a Quote
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-      </a>
+      <a href="/contact" class="navbar__overlay-link">Get a Quote</a>
     </div>
   </div>
 </nav>
