@@ -1,23 +1,57 @@
 @reference "tailwindcss";
 /* ============================================
-   HERO SECTION
+   HERO SECTION — Phase 2
    ============================================ */
 
 .hero {
-  @apply relative min-h-screen overflow-hidden flex items-center;
+  @apply relative min-h-screen overflow-hidden flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding-bottom: 110px;
   background: var(--surface-0);
 }
 
-/* Radial glow behind headline */
+/* ---- Background image ---- */
+.hero__bg {
+  @apply absolute inset-0;
+  z-index: 1;
+}
+
+.hero__bg-img {
+  @apply w-full h-full object-cover;
+  filter: var(--hero-img-filter);
+}
+
+/* ---- Gradient overlay ---- */
+.hero__bg-overlay {
+  @apply absolute inset-0;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    var(--hero-overlay-start) 0%,
+    var(--hero-overlay-mid) 50%,
+    var(--hero-overlay-end) 100%
+  );
+}
+
+/* ---- Vignette ---- */
+.hero__vignette {
+  @apply absolute inset-0 pointer-events-none;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, transparent 40%, var(--bg-primary) 100%);
+  opacity: 0.4;
+}
+
+/* ---- Ambient glow (bottom-left, slow drift) ---- */
 .hero__glow {
   @apply absolute pointer-events-none;
-  top: 20%;
-  left: 15%;
+  bottom: 10%;
+  left: 5%;
   width: 50%;
   height: 60%;
-  background: radial-gradient(ellipse at center, var(--hero-glow) 0%, transparent 70%);
-  z-index: 2;
-  animation: hero-glow-pulse 6s ease-in-out infinite;
+  background: radial-gradient(ellipse at center, var(--hero-glow-color) 0%, transparent 70%);
+  z-index: 4;
+  animation: hero-glow-drift 8s ease-in-out infinite alternate;
 }
 
 /* ---- Staggered entrance for hero children ---- */
@@ -27,10 +61,10 @@
     animation: hero-reveal-up var(--duration-reveal) var(--ease-out-expo) forwards;
   }
 
-  /* Stagger each child: label → name → divider → intro → ctas → pills → badge */
+  /* Stagger: label → name → accent-bar → intro → ctas → pills → badge */
   .hero__content > :nth-child(1) { animation-delay: 100ms; }
   .hero__content > :nth-child(2) { animation-delay: 200ms; }
-  .hero__content > :nth-child(3) { animation-delay: 350ms; }
+  .hero__content > :nth-child(3) { animation-delay: 550ms; }
   .hero__content > :nth-child(4) { animation-delay: 450ms; }
   .hero__content > :nth-child(5) { animation-delay: 600ms; }
   .hero__content > :nth-child(6) { animation-delay: 750ms; }
@@ -51,20 +85,13 @@
   /* Scroll indicator comes last */
   .hero__scroll {
     opacity: 0;
-    animation: hero-fade-in 600ms var(--ease-out-expo) 1200ms forwards;
+    animation: hero-fade-in 600ms var(--ease-out-expo) 1400ms forwards;
   }
 }
 
-/* Noise overlay */
-.hero__noise {
-  @apply absolute inset-0 pointer-events-none;
-  z-index: 1;
-  opacity: 0.03;
-}
-
 .hero__inner {
-  @apply relative z-10 flex items-center justify-between;
-  @apply w-full mx-auto px-6 lg:px-12 py-24 gap-16 max-w-7xl;
+  @apply relative z-10 flex items-end justify-between;
+  @apply w-full mx-auto px-6 lg:px-12 gap-16 max-w-7xl;
 }
 
 /* Left content */
@@ -92,16 +119,18 @@
   -webkit-text-stroke: 1.5px var(--text-secondary);
 }
 
-.hero__divider {
-  @apply block w-16 h-0.5;
+/* Teal accent divider bar */
+.hero__accent-bar {
+  @apply block;
+  width: 48px;
+  height: 3px;
   background: var(--accent);
 }
 
 .hero__intro {
-  @apply text-sm font-light max-w-md;
-  font-family: var(--font-mono);
-  line-height: 1.85;
-  letter-spacing: 0.3px;
+  @apply text-base max-w-md;
+  font-family: var(--font-body);
+  line-height: 1.8;
   color: var(--text-secondary);
 }
 
@@ -196,6 +225,8 @@
 .hero__daw-waveform {
   @apply flex-1 h-5 rounded-none opacity-60 bg-repeat-x;
   background-size: 4px 100%;
+  mask-image: linear-gradient(90deg, transparent 2%, black 15%, black 85%, transparent 98%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 2%, black 15%, black 85%, transparent 98%);
 }
 
 .hero__daw-waveform--1 {
@@ -269,23 +300,27 @@
   background: linear-gradient(160deg, #ffffff 0%, #f8f9fa 50%, #f0f2f4 100%);
 }
 
-/* Scroll indicator */
+/* Scroll indicator (centered bottom) */
 .hero__scroll {
-  @apply absolute hidden xl:flex flex-col items-center gap-3;
-  @apply left-12 top-1/2 -translate-y-1/2;
-  writing-mode: vertical-rl;
+  @apply absolute flex flex-col items-center gap-2;
+  @apply left-1/2 -translate-x-1/2;
+  bottom: 32px;
+  z-index: 10;
 }
 
 .hero__scroll-text {
   @apply uppercase;
-  font-size: 10px;
+  font-size: 9px;
   font-family: var(--font-mono);
   letter-spacing: 2px;
   color: var(--text-tertiary);
 }
 
 .hero__scroll-line {
-  @apply block w-px h-12 origin-top;
+  @apply block;
+  width: 1px;
+  height: 32px;
   background: var(--accent);
+  transform-origin: top;
   animation: scroll-pulse 2s ease-in-out infinite;
 }
