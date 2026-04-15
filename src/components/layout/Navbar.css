@@ -5,13 +5,17 @@
 
 .navbar {
   @apply fixed top-0 left-0 right-0 z-50 border-b border-b-transparent;
-  transition: background var(--transition-base), border-color var(--transition-base), backdrop-filter var(--transition-base);
+  transition:
+    background      350ms var(--ease-out-quart),
+    border-color    350ms var(--ease-out-quart),
+    backdrop-filter 350ms var(--ease-out-quart);
 }
 
 .navbar--scrolled {
-  @apply backdrop-blur-lg;
-  background: color-mix(in srgb, var(--bg-primary) 85%, transparent);
-  border-bottom-color: var(--border-subtle);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  border-bottom-color: var(--glass-border);
 }
 
 .navbar__inner {
@@ -55,6 +59,12 @@
 
 .navbar__link:hover {
   color: var(--text-primary);
+}
+
+/* Divider before theme toggle */
+.navbar__divider {
+  @apply block w-px h-5;
+  background: var(--border-hover);
 }
 
 /* Hamburger */

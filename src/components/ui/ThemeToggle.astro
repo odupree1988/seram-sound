@@ -3,27 +3,31 @@
 
 <button class="theme-toggle__track" id="theme-toggle" aria-label="Toggle theme">
   <span class="theme-toggle__thumb">
-    <svg class="theme-toggle__icon--dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-    </svg>
-    <svg class="theme-toggle__icon--light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <!-- Sun icon: shown in dark mode (click to go light) -->
+    <svg class="theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <circle cx="12" cy="12" r="5"/>
       <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+    </svg>
+    <!-- Moon icon: shown in light mode (click to go dark) -->
+    <svg class="theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
     </svg>
   </span>
 </button>
 
 <style>
   @reference "tailwindcss";
-  .theme-toggle__icon--light {
+  /* Dark mode: show sun (target), hide moon */
+  .theme-toggle__icon--moon {
     @apply hidden;
   }
 
-  [data-theme="light"] .theme-toggle__icon--dark {
+  /* Light mode: show moon (target), hide sun */
+  [data-theme="light"] .theme-toggle__icon--sun {
     @apply hidden;
   }
 
-  [data-theme="light"] .theme-toggle__icon--light {
+  [data-theme="light"] .theme-toggle__icon--moon {
     @apply block;
   }
 </style>
@@ -31,10 +35,31 @@
 <script>
   const toggle = document.getElementById('theme-toggle');
 
+  function getSystemTheme() {
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+
   toggle?.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme') || 'dark';
-    const next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
+    const stored = localStorage.getItem('theme-preference');
+
+    if (stored) {
+      // User has an explicit override — clear it, return to system preference
+      localStorage.removeItem('theme-preference');
+      const systemTheme = getSystemTheme();
+      document.documentElement.setAttribute('data-theme', systemTheme);
+    } else {
+      // Currently following system — set explicit opposite
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme-preference', next);
+    }
+  });
+
+  // Listen for OS theme changes when no explicit preference is stored
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme-preference')) {
+      document.documentElement.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+    }
   });
 </script>

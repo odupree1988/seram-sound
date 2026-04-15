@@ -15,8 +15,9 @@ import { siteConfig } from '../../data/siteConfig';
       {siteConfig.navLinks.map((link) => (
         <a href={link.href} class="navbar__link">{link.label}</a>
       ))}
-      <ThemeToggle />
       <a href="/contact" class="btn--nav">Get a Quote</a>
+      <span class="navbar__divider" aria-hidden="true"></span>
+      <ThemeToggle />
     </div>
 
     <button

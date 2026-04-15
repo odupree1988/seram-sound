@@ -21,14 +21,16 @@
   @apply w-4.5 h-4.5;
 }
 
-.theme-toggle-mobile__icon--light {
+/* Dark mode: show sun, hide moon */
+.theme-toggle-mobile__icon--moon {
   @apply hidden;
 }
 
-[data-theme="light"] .theme-toggle-mobile__icon--dark {
+/* Light mode: show moon, hide sun */
+[data-theme="light"] .theme-toggle-mobile__icon--sun {
   @apply hidden;
 }
 
-[data-theme="light"] .theme-toggle-mobile__icon--light {
+[data-theme="light"] .theme-toggle-mobile__icon--moon {
   @apply block;
 }

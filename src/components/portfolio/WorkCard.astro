@@ -63,6 +63,9 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
 </article>
 
 <script>
+  // Shared registry: when one player starts, stop all others
+  const allPlayers: Array<{ stop: () => void }> = [];
+
   document.querySelectorAll('[data-workcard-player]').forEach((player) => {
     const el = player as HTMLElement;
     const src = el.dataset.audioSrc;
@@ -74,6 +77,26 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
 
     let audio: HTMLAudioElement | null = null;
     let isPlaying = false;
+    let isDragging = false;
+
+    function stopAndReset() {
+      if (!audio) return;
+      audio.pause();
+      audio.currentTime = 0;
+      isPlaying = false;
+      el.classList.remove('work-card__player--playing');
+      updateProgress(0);
+      timeDisplay.textContent = formatTime(audio.duration || 0);
+      updateAriaLabel();
+    }
+
+    allPlayers.push({ stop: stopAndReset });
+
+    function updateProgress(pct: number) {
+      progressBar.style.width = `${pct}%`;
+      progressSlider.style.setProperty('--progress-pct', `${pct}%`);
+      progressSlider.setAttribute('aria-valuenow', String(Math.round(pct)));
+    }
 
     function formatTime(seconds: number): string {
       const m = Math.floor(seconds / 60);
@@ -99,18 +122,16 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
         progressSlider.setAttribute('aria-valuetext', `0:00 of ${formatTime(audio.duration)}`);
       });
       audio.addEventListener('timeupdate', () => {
-        if (!audio) return;
+        if (!audio || isDragging) return;
         const pct = (audio.currentTime / audio.duration) * 100;
-        progressBar.style.width = `${pct}%`;
-        progressSlider.setAttribute('aria-valuenow', String(Math.round(pct)));
+        updateProgress(pct);
         timeDisplay.textContent = formatTime(audio.currentTime);
         progressSlider.setAttribute('aria-valuetext', `${formatTime(audio.currentTime)} of ${formatTime(audio.duration)}`);
       });
       audio.addEventListener('ended', () => {
         isPlaying = false;
         el.classList.remove('work-card__player--playing');
-        progressBar.style.width = '0%';
-        progressSlider.setAttribute('aria-valuenow', '0');
+        updateProgress(0);
         updateAriaLabel();
       });
     }
@@ -123,6 +144,8 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
         isPlaying = false;
         el.classList.remove('work-card__player--playing');
       } else {
+        // Stop all other players first
+        allPlayers.forEach((p) => { if (p.stop !== stopAndReset) p.stop(); });
         audio.play();
         isPlaying = true;
         el.classList.add('work-card__player--playing');
@@ -158,12 +181,53 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
       }
     });
 
-    // Click to seek
-    progressSlider?.addEventListener('click', (e: MouseEvent) => {
-      initAudio();
-      if (!audio || !audio.duration) return;
+    // --- Click & drag to seek ---
+    function getFraction(clientX: number): number {
       const rect = progressSlider.getBoundingClientRect();
-      seekTo((e.clientX - rect.left) / rect.width);
+      return Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    }
+
+    function onDragMove(clientX: number) {
+      const frac = getFraction(clientX);
+      updateProgress(frac * 100);
+      if (audio && audio.duration) {
+        timeDisplay.textContent = formatTime(frac * audio.duration);
+      }
+    }
+
+    function onDragEnd(clientX: number) {
+      isDragging = false;
+      progressSlider.classList.remove('work-card__progress--dragging');
+      const frac = getFraction(clientX);
+      seekTo(frac);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
+    }
+
+    function handleMouseMove(e: MouseEvent) { onDragMove(e.clientX); }
+    function handleMouseUp(e: MouseEvent) { onDragEnd(e.clientX); }
+    function handleTouchMove(e: TouchEvent) { e.preventDefault(); onDragMove(e.touches[0].clientX); }
+    function handleTouchEnd(e: TouchEvent) { onDragEnd(e.changedTouches[0].clientX); }
+
+    progressSlider?.addEventListener('mousedown', (e: MouseEvent) => {
+      e.preventDefault();
+      initAudio();
+      isDragging = true;
+      progressSlider.classList.add('work-card__progress--dragging');
+      onDragMove(e.clientX);
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
     });
+
+    progressSlider?.addEventListener('touchstart', (e: TouchEvent) => {
+      initAudio();
+      isDragging = true;
+      progressSlider.classList.add('work-card__progress--dragging');
+      onDragMove(e.touches[0].clientX);
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+      document.addEventListener('touchend', handleTouchEnd);
+    }, { passive: true });
   });
 </script>

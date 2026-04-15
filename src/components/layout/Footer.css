@@ -6,7 +6,7 @@
 .footer {
   @apply mt-auto;
   border-top: 1px solid var(--border-subtle);
-  background: var(--bg-secondary);
+  background: var(--surface-1);
 }
 
 .footer__inner {

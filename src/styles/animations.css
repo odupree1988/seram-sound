@@ -4,15 +4,24 @@
    ============================================ */
 
 @media (prefers-reduced-motion: no-preference) {
+  /* ---- Scroll-reveal system ---- */
   .fade-in {
-    @apply opacity-0 translate-y-5;
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    @apply h-full;
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity  var(--duration-reveal) var(--ease-out-expo),
+      transform var(--duration-reveal) var(--ease-out-expo);
+    /* Per-element stagger: set --reveal-delay on children via JS or inline style */
+    transition-delay: var(--reveal-delay, 0ms);
   }
 
   .fade-in--visible {
-    @apply opacity-100 translate-y-0;
+    opacity: 1;
+    transform: translateY(0);
   }
 
+  /* ---- Keyframes ---- */
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
@@ -26,6 +35,27 @@
   @keyframes marquee {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
+  }
+
+  /* ---- Hero entrance keyframes ---- */
+  @keyframes hero-reveal-up {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes hero-scale-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes hero-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes hero-glow-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
   }
 }
 

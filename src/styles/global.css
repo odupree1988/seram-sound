@@ -35,6 +35,32 @@
   /* Transitions */
   --transition-fast: 200ms ease;
   --transition-base: 250ms ease;
+
+  /* ---- Phase 1 tokens ---- */
+
+  /* Surface depth (layered elevation system) */
+  --surface-0: var(--bg-primary);                        /* deepest — page background   */
+  --surface-1: var(--bg-secondary);                      /* cards, panels, alternating   */
+  --surface-2: var(--bg-tertiary);                       /* elevated modals / tooltips   */
+
+  /* Shadows (elevation scale) */
+  --shadow-card:     0 4px 24px  rgba(0, 0, 0, 0.25);
+  --shadow-elevated: 0 8px 32px  rgba(0, 0, 0, 0.35);
+  --shadow-glow:     0 0  40px   rgba(72, 200, 180, 0.08);
+
+  /* Glassmorphism */
+  --glass-bg:     color-mix(in srgb, var(--bg-primary) 70%, transparent);
+  --glass-blur:   16px;
+  --glass-border: var(--border-subtle);
+
+  /* Animation / motion presets */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --duration-reveal: 600ms;
+  --stagger-delay: 80ms;
+
+  /* Hero glow */
+  --hero-glow: rgba(72, 200, 180, 0.08);
 }
 
 [data-theme="light"] {
@@ -54,6 +80,19 @@
 
   --border-subtle: rgba(0, 0, 0, 0.07);
   --border-hover: rgba(0, 0, 0, 0.13);
+
+  /* Light-mode overrides for Phase 1 tokens */
+  --surface-0: var(--bg-primary);
+  --surface-1: var(--bg-secondary);
+  --surface-2: var(--bg-tertiary);
+
+  --shadow-card:     0 4px 24px  rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 8px 32px  rgba(0, 0, 0, 0.12);
+  --shadow-glow:     0 0  40px   rgba(30, 130, 115, 0.06);
+
+  --glass-bg: color-mix(in srgb, var(--bg-primary) 70%, transparent);
+
+  --hero-glow: rgba(30, 130, 115, 0.06);
 }
 
 /* ============================================

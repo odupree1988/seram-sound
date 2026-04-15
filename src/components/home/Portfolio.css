@@ -5,7 +5,7 @@
 
 .portfolio {
   @apply py-24;
-  background: var(--bg-primary);
+  background: var(--surface-0);
 }
 
 .portfolio__inner {

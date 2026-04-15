@@ -135,6 +135,128 @@ import { siteConfig } from '../data/siteConfig';
 
     <div class="ds-divider" aria-hidden="true"></div>
 
+    <!-- SURFACE DEPTH -->
+    <section class="ds-section" aria-labelledby="ds-surfaces">
+      <span class="section-label" id="ds-surfaces">Surface Depth</span>
+      <h2 class="ds-section__heading">Elevation System</h2>
+      <p class="ds-section__desc">Three surface levels create visual depth. Sections alternate between surface-0 and surface-1. Cards and panels sit on surface-1. Modals and tooltips on surface-2.</p>
+
+      <div class="ds-grid ds-grid--3">
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: var(--surface-0); height: 80px;"></div>
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Surface 0 (Deepest)</span>
+            <span class="ds-swatch__value">Page background</span>
+            <span class="ds-swatch__token">--surface-0</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: var(--surface-1); height: 80px;"></div>
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Surface 1 (Cards)</span>
+            <span class="ds-swatch__value">Panels, alternating sections</span>
+            <span class="ds-swatch__token">--surface-1</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: var(--surface-2); height: 80px;"></div>
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Surface 2 (Elevated)</span>
+            <span class="ds-swatch__value">Modals, tooltips</span>
+            <span class="ds-swatch__token">--surface-2</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="ds-section__subhead">Shadow Scale</h3>
+      <div class="ds-grid ds-grid--3">
+        <div class="ds-showcase ds-showcase--dark" style="padding: 24px;">
+          <div class="ds-shadow-demo ds-shadow-demo--card"></div>
+          <span class="ds-showcase__label" style="margin-bottom: 0; margin-top: 12px; border-bottom: none;">--shadow-card</span>
+        </div>
+        <div class="ds-showcase ds-showcase--dark" style="padding: 24px;">
+          <div class="ds-shadow-demo ds-shadow-demo--elevated"></div>
+          <span class="ds-showcase__label" style="margin-bottom: 0; margin-top: 12px; border-bottom: none;">--shadow-elevated</span>
+        </div>
+        <div class="ds-showcase ds-showcase--dark" style="padding: 24px;">
+          <div class="ds-shadow-demo ds-shadow-demo--glow"></div>
+          <span class="ds-showcase__label" style="margin-bottom: 0; margin-top: 12px; border-bottom: none;">--shadow-glow</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- GLASSMORPHISM -->
+    <section class="ds-section" aria-labelledby="ds-glass">
+      <span class="section-label" id="ds-glass">Glassmorphism</span>
+      <h2 class="ds-section__heading">Glass Surfaces</h2>
+      <p class="ds-section__desc">Used on the navbar (on scroll) and overlays. Combines backdrop-blur, reduced-opacity background, and subtle borders.</p>
+
+      <div class="ds-showcase ds-showcase--dark">
+        <span class="ds-showcase__label">Glass panel — navbar on scroll</span>
+        <div class="ds-glass-demo">
+          <span class="ds-glass-demo__text">backdrop-filter: blur(var(--glass-blur)) saturate(180%)</span>
+          <span class="ds-glass-demo__text">background: var(--glass-bg)</span>
+          <span class="ds-glass-demo__text">border: 1px solid var(--glass-border)</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- MOTION PRESETS -->
+    <section class="ds-section" aria-labelledby="ds-motion">
+      <span class="section-label" id="ds-motion">Motion</span>
+      <h2 class="ds-section__heading">Animation Presets</h2>
+      <p class="ds-section__desc">Centralized timing and easing tokens for consistent motion across all components. Scroll reveals, hero entrances, and hover transitions all reference these presets.</p>
+
+      <div class="ds-grid ds-grid--4">
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Reveal Duration</span>
+            <span class="ds-swatch__value">600ms</span>
+            <span class="ds-swatch__token">--duration-reveal</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Stagger Delay</span>
+            <span class="ds-swatch__value">80ms per child</span>
+            <span class="ds-swatch__token">--stagger-delay</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Ease Out Expo</span>
+            <span class="ds-swatch__value">cubic-bezier(0.16, 1, 0.3, 1)</span>
+            <span class="ds-swatch__token">--ease-out-expo</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Ease Out Quart</span>
+            <span class="ds-swatch__value">cubic-bezier(0.25, 1, 0.5, 1)</span>
+            <span class="ds-swatch__token">--ease-out-quart</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="ds-section__subhead">Scroll Reveal</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">fade-in → fade-in--visible (Intersection Observer)</span>
+        <p class="ds-showcase__note">Elements start at opacity: 0, translateY(24px). On viewport entry, they animate to final position using --ease-out-expo over --duration-reveal. Stagger via --reveal-delay custom property per element.</p>
+      </div>
+
+      <h3 class="ds-section__subhead">Hero Entrance</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">Staggered sequence: label → name → divider → intro → CTAs → pills → badge</span>
+        <p class="ds-showcase__note">Each hero child animates in with hero-reveal-up (slide + fade). The hero name uses hero-scale-in (scale 0.96 → 1). DAW visual fades in at 700ms. Scroll indicator at 1200ms. A radial teal glow (--hero-glow) pulses subtly behind the headline.</p>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
     <!-- TYPOGRAPHY -->
     <section class="ds-section" aria-labelledby="ds-typography">
       <span class="section-label" id="ds-typography">Typography</span>
@@ -628,9 +750,10 @@ import { siteConfig } from '../data/siteConfig';
     @apply overflow-hidden mb-4;
     height: 64px;
     border-radius: 0;
-    border: 1px solid var(--border-subtle);
-    backdrop-filter: blur(16px);
-    background: color-mix(in srgb, var(--bg-primary) 85%, transparent);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    background: var(--glass-bg);
   }
 
   .ds-showcase__navbar-inner {
@@ -743,5 +866,43 @@ import { siteConfig } from '../data/siteConfig';
     width: 3px;
     border-radius: 1.5px;
     background: var(--accent);
+  }
+
+  /* Shadow demos */
+  .ds-shadow-demo {
+    width: 100%;
+    height: 64px;
+    border-radius: 0;
+    border: 1px solid var(--border-subtle);
+    background: var(--surface-1);
+  }
+
+  .ds-shadow-demo--card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .ds-shadow-demo--elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .ds-shadow-demo--glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Glassmorphism demo */
+  .ds-glass-demo {
+    @apply flex flex-col gap-2 p-6;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 0;
+  }
+
+  .ds-glass-demo__text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.3px;
   }
 </style>

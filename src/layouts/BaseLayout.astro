@@ -62,11 +62,15 @@ const canonicalURL = new URL(Astro.url.pathname, siteConfig.metadata.url);
       rel="stylesheet"
     />
 
-    <!-- FOUC Prevention -->
+    <!-- FOUC Prevention + System Preference Detection -->
     <script is:inline>
       (function(){
         try {
-          var t = localStorage.getItem('theme');
+          // Clear stale key from old toggle implementation
+          if (localStorage.getItem('theme')) {
+            localStorage.removeItem('theme');
+          }
+          var t = localStorage.getItem('theme-preference');
           if (!t) {
             t = window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark';
           }

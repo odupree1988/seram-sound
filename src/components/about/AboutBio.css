@@ -4,7 +4,7 @@
    ============================================ */
 
 .about-bio {
-  @apply py-24;
+  @apply pt-0 pb-24;
   background: var(--bg-primary);
 }
 

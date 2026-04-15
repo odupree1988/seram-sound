@@ -5,7 +5,7 @@
 
 .services {
   @apply relative overflow-hidden py-6;
-  background: var(--bg-secondary);
+  background: var(--surface-1);
 }
 
 .services__marquee {

@@ -5,7 +5,54 @@
 
 .hero {
   @apply relative min-h-screen overflow-hidden flex items-center;
-  background: var(--bg-primary);
+  background: var(--surface-0);
+}
+
+/* Radial glow behind headline */
+.hero__glow {
+  @apply absolute pointer-events-none;
+  top: 20%;
+  left: 15%;
+  width: 50%;
+  height: 60%;
+  background: radial-gradient(ellipse at center, var(--hero-glow) 0%, transparent 70%);
+  z-index: 2;
+  animation: hero-glow-pulse 6s ease-in-out infinite;
+}
+
+/* ---- Staggered entrance for hero children ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__content > * {
+    opacity: 0;
+    animation: hero-reveal-up var(--duration-reveal) var(--ease-out-expo) forwards;
+  }
+
+  /* Stagger each child: label → name → divider → intro → ctas → pills → badge */
+  .hero__content > :nth-child(1) { animation-delay: 100ms; }
+  .hero__content > :nth-child(2) { animation-delay: 200ms; }
+  .hero__content > :nth-child(3) { animation-delay: 350ms; }
+  .hero__content > :nth-child(4) { animation-delay: 450ms; }
+  .hero__content > :nth-child(5) { animation-delay: 600ms; }
+  .hero__content > :nth-child(6) { animation-delay: 750ms; }
+  .hero__content > :nth-child(7) { animation-delay: 900ms; }
+
+  /* Hero name gets a scale-in instead of slide-up */
+  .hero__content > .hero__name {
+    animation-name: hero-scale-in;
+    animation-delay: 200ms;
+  }
+
+  /* DAW visual fades in after content */
+  .hero__visual {
+    opacity: 0;
+    animation: hero-fade-in 800ms var(--ease-out-expo) 700ms forwards;
+  }
+
+  /* Scroll indicator comes last */
+  .hero__scroll {
+    opacity: 0;
+    animation: hero-fade-in 600ms var(--ease-out-expo) 1200ms forwards;
+  }
 }
 
 /* Noise overlay */
@@ -225,7 +272,7 @@
 /* Scroll indicator */
 .hero__scroll {
   @apply absolute hidden xl:flex flex-col items-center gap-3;
-  @apply left-6 bottom-12;
+  @apply left-12 top-1/2 -translate-y-1/2;
   writing-mode: vertical-rl;
 }
 
