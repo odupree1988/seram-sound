@@ -1,6 +1,6 @@
 @reference "tailwindcss";
 /* ============================================
-   ABOUT BIO
+   ABOUT BIO — Split Layout Phase 2
    ============================================ */
 
 .about-bio {
@@ -9,28 +9,120 @@
 }
 
 .about-bio__inner {
-  @apply mx-auto px-6 lg:px-12 max-w-3xl;
+  @apply mx-auto px-6 lg:px-12 max-w-7xl;
+}
+
+.about-bio__grid {
+  @apply grid gap-16;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .about-bio__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+}
+
+/* ---- Left column: Image ---- */
+.about-bio__image-col {
+  @apply relative;
+}
+
+.about-bio__image-wrap {
+  @apply relative overflow-hidden;
+}
+
+.about-bio__photo {
+  @apply w-full object-cover;
+  filter: var(--about-img-filter);
+  aspect-ratio: 3/4;
+}
+
+.about-bio__image-overlay {
+  @apply absolute inset-0 pointer-events-none;
+  background: linear-gradient(180deg, transparent 60%, var(--bg-primary) 100%);
+}
+
+/* Glassmorphic badge */
+.about-bio__glass-badge {
+  @apply absolute flex items-center gap-2;
+  bottom: 24px;
+  left: 16px;
+  padding: 10px 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-left: 3px solid var(--accent);
+}
+
+.about-bio__glass-badge-bar {
+  @apply hidden;
+}
+
+.about-bio__glass-badge-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ---- Right column: Content ---- */
+.about-bio__content-col {
+  @apply flex flex-col;
 }
 
 .about-bio__heading {
-  @apply mt-4 mb-12;
+  @apply mt-4 mb-8;
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
 }
 
-.about-bio__content {
-  @apply flex flex-col gap-6;
+.about-bio__text-block {
+  @apply flex flex-col gap-6 mb-10;
 }
 
 .about-bio__text {
-  @apply text-base;
   font-family: var(--font-body);
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.8;
   color: var(--text-secondary);
 }
 
-.about-bio__badge {
-  @apply mt-4;
+/* Stats grid */
+.about-bio__stats {
+  @apply grid gap-4 mb-10;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.about-bio__stat {
+  @apply flex flex-col gap-1 p-4;
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent);
+}
+
+.about-bio__stat-number {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.about-bio__stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
 }
 
 .about-bio__cta {
-  @apply mt-4;
+  @apply mt-0;
 }

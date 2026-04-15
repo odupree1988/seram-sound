@@ -1,34 +1,66 @@
 ---
 import './AboutBio.css';
 import ScrollReveal from '../ui/ScrollReveal.astro';
-import HumanBadge from '../ui/HumanBadge.astro';
 import { siteConfig } from '../../data/siteConfig';
+
+const stats = [
+  { number: '10+', label: 'Years Experience' },
+  { number: '100%', label: 'Human-Composed' },
+  { number: '1:1', label: 'Direct Collaboration' },
+];
 ---
 
 <section class="about-bio" aria-labelledby="about-heading">
   <div class="about-bio__inner">
-    <ScrollReveal>
-      <span class="section-label">About</span>
-      <h2 class="section-heading about-bio__heading" id="about-heading">The Composer</h2>
-    </ScrollReveal>
-
-    <ScrollReveal delay={100}>
-      <div class="about-bio__content">
-        {siteConfig.aboutBio.map((paragraph) => (
-          <p class="about-bio__text">{paragraph}</p>
-        ))}
-
-        <div class="about-bio__badge">
-          <HumanBadge />
+    <div class="about-bio__grid">
+      <!-- Left column — Image -->
+      <ScrollReveal>
+        <div class="about-bio__image-col">
+          <div class="about-bio__image-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80"
+              alt="Studio environment"
+              class="about-bio__photo"
+              loading="lazy"
+            />
+            <div class="about-bio__image-overlay" aria-hidden="true"></div>
+            <div class="about-bio__glass-badge">
+              <span class="about-bio__glass-badge-bar" aria-hidden="true"></span>
+              <span class="about-bio__glass-badge-text">100% Human-Composed</span>
+            </div>
+          </div>
         </div>
+      </ScrollReveal>
 
-        <div class="about-bio__cta">
-          <a href="/contact" class="btn--primary">
-            Work with me
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-          </a>
+      <!-- Right column — Content -->
+      <ScrollReveal delay={100}>
+        <div class="about-bio__content-col">
+          <span class="section-label">About</span>
+          <h2 class="about-bio__heading" id="about-heading">The Composer Behind the Score</h2>
+
+          <div class="about-bio__text-block">
+            {siteConfig.aboutBio.map((paragraph) => (
+              <p class="about-bio__text">{paragraph}</p>
+            ))}
+          </div>
+
+          <div class="about-bio__stats">
+            {stats.map((stat) => (
+              <div class="about-bio__stat">
+                <span class="about-bio__stat-number">{stat.number}</span>
+                <span class="about-bio__stat-label">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+
+          <div class="about-bio__cta">
+            <a href="/contact" class="btn--primary">
+              Work with me
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+          </div>
         </div>
-      </div>
-    </ScrollReveal>
+      </ScrollReveal>
+    </div>
   </div>
 </section>
