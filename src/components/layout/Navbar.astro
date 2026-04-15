@@ -59,22 +59,64 @@ import { siteConfig } from '../../data/siteConfig';
     }
   });
 
+  function openMenu() {
+    hamburger?.setAttribute('aria-expanded', 'true');
+    hamburger?.setAttribute('aria-label', 'Close menu');
+    overlay?.setAttribute('aria-hidden', 'false');
+    hamburger?.classList.add('navbar__hamburger--open');
+    document.body.style.overflow = 'hidden';
+    // Focus first link in overlay
+    const firstLink = overlay?.querySelector('a') as HTMLElement;
+    firstLink?.focus();
+  }
+
+  function closeMenu() {
+    hamburger?.setAttribute('aria-expanded', 'false');
+    hamburger?.setAttribute('aria-label', 'Open menu');
+    overlay?.setAttribute('aria-hidden', 'true');
+    hamburger?.classList.remove('navbar__hamburger--open');
+    document.body.style.overflow = '';
+    hamburger?.focus();
+  }
+
   // Mobile menu toggle
   hamburger?.addEventListener('click', () => {
     const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', String(!isOpen));
-    overlay?.setAttribute('aria-hidden', String(isOpen));
-    hamburger.classList.toggle('navbar__hamburger--open');
-    document.body.style.overflow = isOpen ? '' : 'hidden';
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && hamburger?.getAttribute('aria-expanded') === 'true') {
+      closeMenu();
+    }
+  });
+
+  // Focus trap inside overlay
+  overlay?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const focusable = overlay.querySelectorAll('a, button') as NodeListOf<HTMLElement>;
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
 
   // Close overlay on link click
   overlay?.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
-      hamburger?.setAttribute('aria-expanded', 'false');
-      overlay.setAttribute('aria-hidden', 'true');
-      hamburger?.classList.remove('navbar__hamburger--open');
-      document.body.style.overflow = '';
+      closeMenu();
     });
   });
 </script>

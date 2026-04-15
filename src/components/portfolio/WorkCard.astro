@@ -29,16 +29,141 @@ const waveformBars = [5, 9, 15, 11, 20, 14, 22, 18, 7, 16, 24, 12, 18, 9, 14, 20
     <h3 class="work-card__title">{title}</h3>
     <p class="work-card__desc">{description}</p>
 
-    <div class="work-card__player">
-      <button class="work-card__play" aria-label={`Play ${title}`} data-audio-src={audioSrc}>
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <polygon points="5,3 19,12 5,21"/>
-        </svg>
-      </button>
-      <div class="work-card__progress">
-        <div class="work-card__progress-bar"></div>
+    {audioSrc ? (
+      <div class="work-card__player" data-workcard-player data-audio-src={audioSrc} data-track-title={title}>
+        <button class="work-card__play" aria-label={`Play ${title}`}>
+          <svg class="work-card__icon--play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <svg class="work-card__icon--pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <rect x="5" y="3" width="4" height="18"/>
+            <rect x="15" y="3" width="4" height="18"/>
+          </svg>
+        </button>
+        <div
+          class="work-card__progress"
+          role="slider"
+          tabindex="0"
+          aria-label={`Seek ${title}`}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={0}
+          aria-valuetext="0:00"
+        >
+          <div class="work-card__progress-bar"></div>
+        </div>
+        <span class="work-card__time">0:00</span>
       </div>
-      <span class="work-card__time">0:00</span>
-    </div>
+    ) : (
+      <div class="work-card__player work-card__player--disabled">
+        <span class="work-card__coming-soon">Coming soon</span>
+      </div>
+    )}
   </div>
 </article>
+
+<script>
+  document.querySelectorAll('[data-workcard-player]').forEach((player) => {
+    const el = player as HTMLElement;
+    const src = el.dataset.audioSrc;
+    const trackTitle = el.dataset.trackTitle;
+    const playBtn = el.querySelector('.work-card__play') as HTMLButtonElement;
+    const progressBar = el.querySelector('.work-card__progress-bar') as HTMLElement;
+    const progressSlider = el.querySelector('.work-card__progress') as HTMLElement;
+    const timeDisplay = el.querySelector('.work-card__time') as HTMLElement;
+
+    let audio: HTMLAudioElement | null = null;
+    let isPlaying = false;
+
+    function formatTime(seconds: number): string {
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function updateAriaLabel() {
+      playBtn.setAttribute('aria-label', isPlaying ? `Pause ${trackTitle}` : `Play ${trackTitle}`);
+    }
+
+    function seekTo(fraction: number) {
+      if (!audio || !audio.duration) return;
+      audio.currentTime = Math.max(0, Math.min(fraction, 1)) * audio.duration;
+    }
+
+    function initAudio() {
+      if (audio || !src) return;
+      audio = new Audio(src);
+      audio.addEventListener('loadedmetadata', () => {
+        if (!audio) return;
+        timeDisplay.textContent = formatTime(audio.duration);
+        progressSlider.setAttribute('aria-valuetext', `0:00 of ${formatTime(audio.duration)}`);
+      });
+      audio.addEventListener('timeupdate', () => {
+        if (!audio) return;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${pct}%`;
+        progressSlider.setAttribute('aria-valuenow', String(Math.round(pct)));
+        timeDisplay.textContent = formatTime(audio.currentTime);
+        progressSlider.setAttribute('aria-valuetext', `${formatTime(audio.currentTime)} of ${formatTime(audio.duration)}`);
+      });
+      audio.addEventListener('ended', () => {
+        isPlaying = false;
+        el.classList.remove('work-card__player--playing');
+        progressBar.style.width = '0%';
+        progressSlider.setAttribute('aria-valuenow', '0');
+        updateAriaLabel();
+      });
+    }
+
+    function togglePlayPause() {
+      initAudio();
+      if (!audio) return;
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        el.classList.remove('work-card__player--playing');
+      } else {
+        audio.play();
+        isPlaying = true;
+        el.classList.add('work-card__player--playing');
+      }
+      updateAriaLabel();
+    }
+
+    playBtn?.addEventListener('click', togglePlayPause);
+
+    // Keyboard support for progress slider
+    progressSlider?.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (!audio || !audio.duration) return;
+      const step = 5;
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowUp':
+          e.preventDefault();
+          seekTo((audio.currentTime + step) / audio.duration);
+          break;
+        case 'ArrowLeft':
+        case 'ArrowDown':
+          e.preventDefault();
+          seekTo((audio.currentTime - step) / audio.duration);
+          break;
+        case 'Home':
+          e.preventDefault();
+          seekTo(0);
+          break;
+        case 'End':
+          e.preventDefault();
+          seekTo(1);
+          break;
+      }
+    });
+
+    // Click to seek
+    progressSlider?.addEventListener('click', (e: MouseEvent) => {
+      initAudio();
+      if (!audio || !audio.duration) return;
+      const rect = progressSlider.getBoundingClientRect();
+      seekTo((e.clientX - rect.left) / rect.width);
+    });
+  });
+</script>

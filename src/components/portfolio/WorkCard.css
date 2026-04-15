@@ -101,6 +101,18 @@
   @apply w-3 h-3;
 }
 
+.work-card__icon--pause {
+  @apply hidden;
+}
+
+.work-card__player--playing .work-card__icon--play {
+  @apply hidden;
+}
+
+.work-card__player--playing .work-card__icon--pause {
+  @apply block;
+}
+
 .work-card__progress {
   @apply flex-1 h-0.75 rounded-none;
   background: var(--border-subtle);
@@ -117,4 +129,16 @@
   font-family: var(--font-mono);
   color: var(--text-tertiary);
   letter-spacing: 0.5px;
+}
+
+.work-card__player--disabled {
+  @apply opacity-40;
+}
+
+.work-card__coming-soon {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }

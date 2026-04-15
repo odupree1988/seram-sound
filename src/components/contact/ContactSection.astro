@@ -13,15 +13,17 @@ import { siteConfig } from '../../data/siteConfig';
     </ScrollReveal>
 
     <ScrollReveal delay={100}>
-      <form class="contact__form" action="#" method="POST" data-contact-form>
+      <form class="contact__form" action="#" method="POST" data-contact-form novalidate>
         <div class="contact__form-row">
           <div class="contact__field">
             <label for="contact-name" class="contact__label">Name</label>
-            <input type="text" id="contact-name" name="name" class="contact__input" required autocomplete="name" />
+            <input type="text" id="contact-name" name="name" class="contact__input" required aria-required="true" autocomplete="name" />
+            <span class="contact__error" id="contact-name-error" aria-live="polite"></span>
           </div>
           <div class="contact__field">
             <label for="contact-email" class="contact__label">Email</label>
-            <input type="email" id="contact-email" name="email" class="contact__input" required autocomplete="email" />
+            <input type="email" id="contact-email" name="email" class="contact__input" required aria-required="true" autocomplete="email" />
+            <span class="contact__error" id="contact-email-error" aria-live="polite"></span>
           </div>
         </div>
 
@@ -59,13 +61,25 @@ import { siteConfig } from '../../data/siteConfig';
 
         <div class="contact__field">
           <label for="contact-message" class="contact__label">Project Description</label>
-          <textarea id="contact-message" name="message" class="contact__input contact__textarea" rows="5" required placeholder="Tell me about your project, creative direction, and timeline..."></textarea>
+          <textarea id="contact-message" name="message" class="contact__input contact__textarea" rows="5" required aria-required="true" placeholder="Tell me about your project, creative direction, and timeline..."></textarea>
+          <span class="contact__error" id="contact-message-error" aria-live="polite"></span>
         </div>
 
-        <button type="submit" class="btn--primary contact__submit">
-          Send message
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-        </button>
+        <!-- Honeypot field for spam prevention -->
+        <div class="contact__hp" aria-hidden="true">
+          <label for="contact-website">Website</label>
+          <input type="text" id="contact-website" name="_gotcha" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="contact__submit-wrapper">
+          <button type="submit" class="btn--primary contact__submit">
+            <span class="contact__submit-text">Send message</span>
+            <svg class="contact__submit-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            <span class="contact__submit-spinner" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="contact__status" role="status" aria-live="polite" data-form-status></div>
       </form>
     </ScrollReveal>
 
@@ -79,3 +93,127 @@ import { siteConfig } from '../../data/siteConfig';
     </ScrollReveal>
   </div>
 </section>
+
+<script>
+  const form = document.querySelector('[data-contact-form]') as HTMLFormElement;
+  if (form) {
+    const statusEl = form.querySelector('[data-form-status]') as HTMLElement;
+    const submitBtn = form.querySelector('.contact__submit') as HTMLButtonElement;
+
+    const validators: Record<string, (el: HTMLInputElement | HTMLTextAreaElement) => string> = {
+      'contact-name': (el) => el.value.trim() ? '' : 'Name is required.',
+      'contact-email': (el) => {
+        if (!el.value.trim()) return 'Email is required.';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim())) return 'Enter a valid email address.';
+        return '';
+      },
+      'contact-message': (el) => el.value.trim() ? '' : 'Project description is required.',
+    };
+
+    function showError(fieldId: string, message: string) {
+      const input = document.getElementById(fieldId) as HTMLInputElement;
+      const errorEl = document.getElementById(`${fieldId}-error`);
+      if (message) {
+        input?.setAttribute('aria-invalid', 'true');
+        input?.setAttribute('aria-describedby', `${fieldId}-error`);
+        input?.classList.add('contact__input--error');
+        if (errorEl) errorEl.textContent = message;
+      } else {
+        input?.removeAttribute('aria-invalid');
+        input?.removeAttribute('aria-describedby');
+        input?.classList.remove('contact__input--error');
+        if (errorEl) errorEl.textContent = '';
+      }
+    }
+
+    // Validate on blur
+    Object.keys(validators).forEach((fieldId) => {
+      const input = document.getElementById(fieldId) as HTMLInputElement;
+      input?.addEventListener('blur', () => {
+        const msg = validators[fieldId](input);
+        showError(fieldId, msg);
+      });
+      // Clear error on input
+      input?.addEventListener('input', () => {
+        if (input.getAttribute('aria-invalid') === 'true') {
+          const msg = validators[fieldId](input);
+          if (!msg) showError(fieldId, '');
+        }
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Honeypot check
+      const honeypot = form.querySelector('[name="_gotcha"]') as HTMLInputElement;
+      if (honeypot?.value) return;
+
+      // Validate all fields
+      let hasErrors = false;
+      Object.keys(validators).forEach((fieldId) => {
+        const input = document.getElementById(fieldId) as HTMLInputElement;
+        const msg = validators[fieldId](input);
+        showError(fieldId, msg);
+        if (msg) hasErrors = true;
+      });
+
+      if (hasErrors) {
+        const firstError = form.querySelector('[aria-invalid="true"]') as HTMLElement;
+        firstError?.focus();
+        return;
+      }
+
+      // Show loading state
+      submitBtn.disabled = true;
+      form.classList.add('contact__form--submitting');
+      statusEl.textContent = '';
+      statusEl.className = 'contact__status';
+
+      try {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        // Remove honeypot from submission
+        delete data._gotcha;
+
+        // Submit to configured endpoint
+        // Replace this URL with your Formspree, Getform, or custom API endpoint
+        const endpoint = form.getAttribute('action') || '#';
+
+        if (endpoint === '#') {
+          // No endpoint configured — show mailto fallback
+          const subject = encodeURIComponent(`New project inquiry: ${data.projectType || 'General'}`);
+          const body = encodeURIComponent(
+            `Name: ${data.name}\nEmail: ${data.email}\nProject Type: ${data.projectType}\nBudget: ${data.budget}\nDeadline: ${data.deadline}\n\n${data.message}`
+          );
+          window.location.href = `mailto:hello@seramsound.com?subject=${subject}&body=${body}`;
+          statusEl.textContent = 'Opening your email client...';
+          statusEl.className = 'contact__status contact__status--success';
+          return;
+        }
+
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          statusEl.textContent = 'Message sent! I\u2019ll be in touch soon.';
+          statusEl.className = 'contact__status contact__status--success';
+          form.reset();
+          // Clear any lingering error states
+          Object.keys(validators).forEach((fieldId) => showError(fieldId, ''));
+        } else {
+          throw new Error('Submission failed');
+        }
+      } catch {
+        statusEl.textContent = 'Something went wrong. Please try again or email directly.';
+        statusEl.className = 'contact__status contact__status--error';
+      } finally {
+        submitBtn.disabled = false;
+        form.classList.remove('contact__form--submitting');
+      }
+    });
+  }
+</script>

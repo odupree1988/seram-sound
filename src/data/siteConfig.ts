@@ -59,40 +59,40 @@ export const siteConfig = {
 
   portfolioItems: [
     {
-      title: "Echoes of Home",
+      title: "Danny",
       genre: "Short Film",
       description: "An intimate score blending piano and ambient textures for a 12-minute drama about memory and place.",
-      audioSrc: "/audio/echoes-of-home.mp3",
+      audioSrc: "/audio/danny.m4a",
     },
     {
       title: "Meridian Brand Launch",
       genre: "Branded Content",
       description: "Driving, modern scoring for a luxury lifestyle brand\u2019s product reveal campaign.",
-      audioSrc: "/audio/meridian-launch.mp3",
+      audioSrc: "",
     },
     {
       title: "The Weight of Water",
       genre: "Documentary",
       description: "Atmospheric underscore for a 20-minute documentary on coastal erosion and community resilience.",
-      audioSrc: "/audio/weight-of-water.mp3",
+      audioSrc: "",
     },
     {
       title: "Neon Divide",
       genre: "Web Series",
       description: "Synth-driven scoring for a sci-fi web series set in a near-future city.",
-      audioSrc: "/audio/neon-divide.mp3",
+      audioSrc: "",
     },
     {
       title: "Summit Trail",
       genre: "Trailer",
       description: "Epic orchestral trailer music for an outdoor adventure documentary teaser.",
-      audioSrc: "/audio/summit-trail.mp3",
+      audioSrc: "",
     },
     {
       title: "Rooted",
       genre: "Social Media",
       description: "Warm, organic scoring for an agriculture brand\u2019s social media campaign series.",
-      audioSrc: "/audio/rooted.mp3",
+      audioSrc: "",
     },
   ],
 };

@@ -54,9 +54,12 @@
 }
 
 .contact__input:focus {
-  @apply outline-none;
   border-color: var(--accent);
   border-left: 3px solid var(--accent);
+}
+
+.contact__input:focus:not(:focus-visible) {
+  @apply outline-none;
 }
 
 .contact__input::placeholder {
@@ -74,12 +77,74 @@
 }
 
 .contact__submit {
-  @apply self-start mt-2;
+  @apply w-full sm:w-auto;
 }
 
 .contact__socials {
   @apply flex flex-col gap-4 mt-12 pt-8;
   border-top: 1px solid var(--border-subtle);
+}
+
+/* Validation error states */
+.contact__error {
+  @apply block;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: #e05252;
+  min-height: 1.2em;
+}
+
+.contact__input--error {
+  border-color: #e05252;
+  border-left: 3px solid #e05252;
+}
+
+/* Honeypot */
+.contact__hp {
+  @apply absolute overflow-hidden;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Submit loading state */
+.contact__submit-wrapper {
+  @apply self-start mt-2;
+}
+
+.contact__submit-spinner {
+  @apply hidden w-4 h-4 border-2 rounded-full;
+  border-color: var(--bg-primary) transparent var(--bg-primary) transparent;
+  animation: spin 0.6s linear infinite;
+}
+
+.contact__form--submitting .contact__submit-text,
+.contact__form--submitting .contact__submit-icon {
+  @apply hidden;
+}
+
+.contact__form--submitting .contact__submit-spinner {
+  @apply inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Status messages */
+.contact__status {
+  @apply text-sm mt-2;
+  font-family: var(--font-mono);
+  min-height: 1.4em;
+}
+
+.contact__status--success {
+  color: var(--accent);
+}
+
+.contact__status--error {
+  color: #e05252;
 }
 
 .contact__social-link {

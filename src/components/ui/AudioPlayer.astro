@@ -9,7 +9,7 @@ interface Props {
 const { src, title } = Astro.props;
 ---
 
-<div class="audio-player" data-audio-player data-src={src}>
+<div class="audio-player" data-audio-player data-src={src} data-title={title}>
   <button class="audio-player__play" aria-label={`Play ${title}`}>
     <svg class="audio-player__icon--play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <polygon points="5,3 19,12 5,21"/>
@@ -23,22 +23,32 @@ const { src, title } = Astro.props;
   <div class="audio-player__info">
     <span class="audio-player__title">{title}</span>
     <div class="audio-player__progress-wrapper">
-      <div class="audio-player__progress" role="progressbar" aria-valuenow={0} aria-valuemin={0} aria-valuemax={100}>
+      <div
+        class="audio-player__progress"
+        role="slider"
+        tabindex="0"
+        aria-label={`Seek ${title}`}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={0}
+        aria-valuetext="0:00 of 0:00"
+      >
         <div class="audio-player__progress-bar"></div>
       </div>
     </div>
   </div>
 
-  <span class="audio-player__time">0:00 / 0:00</span>
+  <span class="audio-player__time" aria-live="off">0:00 / 0:00</span>
 </div>
 
 <script>
   document.querySelectorAll('[data-audio-player]').forEach((player) => {
     const el = player as HTMLElement;
     const src = el.dataset.src;
+    const trackTitle = el.dataset.title;
     const playBtn = el.querySelector('.audio-player__play') as HTMLButtonElement;
     const progressBar = el.querySelector('.audio-player__progress-bar') as HTMLElement;
-    const progressWrapper = el.querySelector('.audio-player__progress') as HTMLElement;
+    const progressSlider = el.querySelector('.audio-player__progress') as HTMLElement;
     const timeDisplay = el.querySelector('.audio-player__time') as HTMLElement;
 
     let audio: HTMLAudioElement | null = null;
@@ -50,22 +60,49 @@ const { src, title } = Astro.props;
       return `${m}:${s.toString().padStart(2, '0')}`;
     }
 
-    playBtn?.addEventListener('click', () => {
-      if (!audio && src) {
-        audio = new Audio(src);
-        audio.addEventListener('timeupdate', () => {
-          if (!audio) return;
-          const pct = (audio.currentTime / audio.duration) * 100;
-          progressBar.style.width = `${pct}%`;
-          timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
-        });
-        audio.addEventListener('ended', () => {
-          isPlaying = false;
-          el.classList.remove('audio-player--playing');
-          progressBar.style.width = '0%';
-        });
+    function updateAriaLabel() {
+      if (isPlaying) {
+        playBtn.setAttribute('aria-label', `Pause ${trackTitle}`);
+      } else {
+        playBtn.setAttribute('aria-label', `Play ${trackTitle}`);
       }
+    }
 
+    function seekTo(fraction: number) {
+      if (!audio || !audio.duration) return;
+      audio.currentTime = Math.max(0, Math.min(fraction, 1)) * audio.duration;
+    }
+
+    function initAudio() {
+      if (audio || !src) return;
+      audio = new Audio(src);
+      audio.addEventListener('loadedmetadata', () => {
+        if (!audio) return;
+        const dur = formatTime(audio.duration);
+        timeDisplay.textContent = `0:00 / ${dur}`;
+        progressSlider.setAttribute('aria-valuetext', `0:00 of ${dur}`);
+      });
+      audio.addEventListener('timeupdate', () => {
+        if (!audio) return;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${pct}%`;
+        progressSlider.setAttribute('aria-valuenow', String(Math.round(pct)));
+        const current = formatTime(audio.currentTime);
+        const dur = formatTime(audio.duration || 0);
+        timeDisplay.textContent = `${current} / ${dur}`;
+        progressSlider.setAttribute('aria-valuetext', `${current} of ${dur}`);
+      });
+      audio.addEventListener('ended', () => {
+        isPlaying = false;
+        el.classList.remove('audio-player--playing');
+        progressBar.style.width = '0%';
+        progressSlider.setAttribute('aria-valuenow', '0');
+        updateAriaLabel();
+      });
+    }
+
+    function togglePlayPause() {
+      initAudio();
       if (!audio) return;
 
       if (isPlaying) {
@@ -77,13 +114,53 @@ const { src, title } = Astro.props;
         isPlaying = true;
         el.classList.add('audio-player--playing');
       }
+      updateAriaLabel();
+    }
+
+    playBtn?.addEventListener('click', togglePlayPause);
+
+    // Keyboard support for progress slider
+    progressSlider?.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (!audio || !audio.duration) return;
+      const step = 5; // seconds
+      const bigStep = 15;
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowUp':
+          e.preventDefault();
+          seekTo((audio.currentTime + step) / audio.duration);
+          break;
+        case 'ArrowLeft':
+        case 'ArrowDown':
+          e.preventDefault();
+          seekTo((audio.currentTime - step) / audio.duration);
+          break;
+        case 'PageUp':
+          e.preventDefault();
+          seekTo((audio.currentTime + bigStep) / audio.duration);
+          break;
+        case 'PageDown':
+          e.preventDefault();
+          seekTo((audio.currentTime - bigStep) / audio.duration);
+          break;
+        case 'Home':
+          e.preventDefault();
+          seekTo(0);
+          break;
+        case 'End':
+          e.preventDefault();
+          seekTo(1);
+          break;
+      }
     });
 
-    progressWrapper?.addEventListener('click', (e: MouseEvent) => {
+    // Click to seek on progress bar
+    progressSlider?.addEventListener('click', (e: MouseEvent) => {
+      initAudio();
       if (!audio || !audio.duration) return;
-      const rect = progressWrapper.getBoundingClientRect();
+      const rect = progressSlider.getBoundingClientRect();
       const pct = (e.clientX - rect.left) / rect.width;
-      audio.currentTime = pct * audio.duration;
+      seekTo(pct);
     });
   });
 </script>
