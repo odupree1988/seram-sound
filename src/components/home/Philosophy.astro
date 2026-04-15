@@ -1,0 +1,32 @@
+---
+import './Philosophy.css';
+import ScrollReveal from '../ui/ScrollReveal.astro';
+---
+
+<section class="philosophy" aria-labelledby="philosophy-heading">
+  <div class="philosophy__accent-bar" aria-hidden="true"></div>
+
+  <!-- Background waveform texture -->
+  <div class="philosophy__waveform-bg" aria-hidden="true">
+    {Array.from({ length: 60 }, (_, i) => {
+      const h = Math.round(8 + 32 * Math.abs(Math.sin((i / 60) * Math.PI * 2)));
+      return <span class="philosophy__wave-bar" style={`height: ${h}px`} />;
+    })}
+  </div>
+
+  <div class="philosophy__inner">
+    <ScrollReveal>
+      <div class="philosophy__content">
+        <span class="philosophy__quote-mark" aria-hidden="true">&ldquo;</span>
+        <blockquote class="philosophy__quote" id="philosophy-heading">
+          Every project starts with understanding the emotional arc of your piece. I don&rsquo;t score on top of a story &mdash; I score from inside it. No templates, no shortcuts. Just music built to serve your vision.
+        </blockquote>
+        <div class="philosophy__attribution">
+          <span class="philosophy__dash" aria-hidden="true"></span>
+          <span class="philosophy__source">The Seram Sound Promise</span>
+          <span class="philosophy__dash" aria-hidden="true"></span>
+        </div>
+      </div>
+    </ScrollReveal>
+  </div>
+</section>

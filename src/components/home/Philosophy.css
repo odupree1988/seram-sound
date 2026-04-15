@@ -1,0 +1,76 @@
+@reference "tailwindcss";
+/* ============================================
+   PHILOSOPHY QUOTE SECTION
+   ============================================ */
+
+.philosophy {
+  @apply relative py-24 overflow-hidden;
+  background: var(--surface-1);
+}
+
+.philosophy__accent-bar {
+  @apply absolute top-0 left-1/2 -translate-x-1/2;
+  width: 48px;
+  height: 3px;
+  background: var(--accent);
+}
+
+/* Background waveform texture */
+.philosophy__waveform-bg {
+  @apply absolute inset-0 flex items-center justify-center gap-1 pointer-events-none;
+  opacity: 0.03;
+}
+
+.philosophy__wave-bar {
+  @apply block shrink-0;
+  width: 3px;
+  border-radius: 1.5px;
+  background: var(--accent);
+}
+
+.philosophy__inner {
+  @apply relative z-10 mx-auto px-6 lg:px-12 max-w-3xl;
+}
+
+.philosophy__content {
+  @apply relative text-center;
+}
+
+.philosophy__quote-mark {
+  @apply block;
+  font-family: var(--font-display);
+  font-size: 120px;
+  font-weight: 800;
+  line-height: 0.6;
+  color: var(--accent);
+  opacity: 0.10;
+}
+
+.philosophy__quote {
+  @apply mt-4;
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--text-primary);
+}
+
+.philosophy__attribution {
+  @apply flex items-center justify-center gap-4 mt-8;
+}
+
+.philosophy__dash {
+  @apply block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.philosophy__source {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
