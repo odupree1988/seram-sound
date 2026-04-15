@@ -1,6 +1,6 @@
 @reference "tailwindcss";
 /* ============================================
-   FOOTER
+   FOOTER — Four-Column Phase 2
    ============================================ */
 
 .footer {
@@ -10,18 +10,33 @@
 }
 
 .footer__inner {
-  @apply mx-auto px-6 lg:px-12 py-12 max-w-7xl;
+  @apply mx-auto px-6 lg:px-12 pt-16 pb-8 max-w-7xl;
 }
 
-.footer__top {
-  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between;
-  @apply gap-6 mb-8 pb-8;
-  border-bottom: 1px solid var(--border-subtle);
+/* ---- Four-column grid ---- */
+.footer__columns {
+  @apply grid gap-8 pb-12;
+  grid-template-columns: 1fr;
 }
 
+@media (min-width: 640px) {
+  .footer__columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer__columns {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+/* Brand column */
 .footer__brand {
-  @apply flex items-center gap-2.5 text-sm;
+  @apply flex items-center gap-2.5 mb-3;
   font-family: var(--font-mono);
+  font-size: 14px;
   color: var(--text-secondary);
   letter-spacing: 0.5px;
 }
@@ -36,8 +51,78 @@
   @apply block;
 }
 
+.footer__tagline {
+  @apply mb-4;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-tertiary);
+  line-height: 1.6;
+}
+
+/* Column headings */
+.footer__col-heading {
+  @apply block mb-4 uppercase;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--text-tertiary);
+}
+
+/* Links */
+.footer__links {
+  @apply flex flex-col gap-2.5;
+}
+
+.footer__link {
+  @apply text-sm no-underline;
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.footer__link:hover {
+  color: var(--accent);
+}
+
+/* Email */
+.footer__email {
+  @apply block mb-4 text-sm no-underline;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+  transition: color var(--transition-fast);
+}
+
+.footer__email:hover {
+  color: var(--accent);
+}
+
+/* Social icons */
+.footer__socials {
+  @apply flex items-center gap-3;
+}
+
+.footer__social-link {
+  @apply flex items-center justify-center w-9 h-9;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-tertiary);
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.footer__social-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.footer__social-link svg {
+  @apply w-4 h-4;
+}
+
+/* Bottom bar */
 .footer__bottom {
-  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4;
+  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .footer__copy {
@@ -46,20 +131,17 @@
   color: var(--text-tertiary);
 }
 
-.footer__socials {
-  @apply flex items-center gap-4;
+.footer__legal {
+  @apply flex items-center gap-6;
 }
 
-.footer__social-link {
-  @apply flex items-center justify-center w-9 h-9;
+.footer__legal-link {
+  @apply text-xs no-underline;
+  font-family: var(--font-mono);
   color: var(--text-tertiary);
   transition: color var(--transition-fast);
 }
 
-.footer__social-link:hover {
+.footer__legal-link:hover {
   color: var(--accent);
-}
-
-.footer__social-link svg {
-  @apply w-4.5 h-4.5;
 }
