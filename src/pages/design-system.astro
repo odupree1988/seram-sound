@@ -17,7 +17,7 @@ import { siteConfig } from '../data/siteConfig';
         <span class="ds-page__title-outlined">SYSTEM</span>
       </h1>
       <p class="ds-page__subtitle">Seram Sound — Sharp Block + Midnight Teal + Geist</p>
-      <span class="ds-page__version">v2.1 — Final — April 2026</span>
+      <span class="ds-page__version">v3.0 — Phase 2 — April 2026</span>
     </header>
 
     <!-- COLOR TOKENS -->
@@ -453,6 +453,235 @@ import { siteConfig } from '../data/siteConfig';
           <a href="#" class="btn--nav" onclick="event.preventDefault()">Nav Pill</a>
         </div>
         <p class="ds-showcase__note">Every bordered element carries the left accent bar — instant visual cohesion.</p>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — IMAGE FILTERS -->
+    <section class="ds-section" aria-labelledby="ds-img-filters">
+      <span class="section-label" id="ds-img-filters">Image Filters</span>
+      <h2 class="ds-section__heading">Theme-Aware Photo Treatment</h2>
+      <p class="ds-section__desc">CSS filter tokens applied to images per theme. Ensures photos integrate with the dark/light palette without appearing washed out or overpowering.</p>
+
+      <div class="ds-grid ds-grid--4">
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Hero Image</span>
+            <span class="ds-swatch__value">D: saturate(0.5) brightness(0.55)<br/>L: saturate(0.6) brightness(0.45)</span>
+            <span class="ds-swatch__token">--hero-img-filter</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Card Image</span>
+            <span class="ds-swatch__value">D: saturate(0.7) brightness(0.8)<br/>L: saturate(0.85) brightness(0.95)</span>
+            <span class="ds-swatch__token">--card-img-filter</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Card Hover</span>
+            <span class="ds-swatch__value">D: saturate(0.9) brightness(0.9)<br/>L: saturate(1) brightness(1)</span>
+            <span class="ds-swatch__token">--card-img-hover-filter</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">About Image</span>
+            <span class="ds-swatch__value">D: saturate(0.6) brightness(0.85)<br/>L: saturate(0.7) brightness(0.9)</span>
+            <span class="ds-swatch__token">--about-img-filter</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — HERO OVERLAYS -->
+    <section class="ds-section" aria-labelledby="ds-hero-overlays">
+      <span class="section-label" id="ds-hero-overlays">Hero Overlays</span>
+      <h2 class="ds-section__heading">Gradient Overlay Stack</h2>
+      <p class="ds-section__desc">Three overlay layers create atmospheric depth over background images: image filter, vertical gradient, and edge vignette.</p>
+
+      <div class="ds-grid ds-grid--3">
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Overlay Start</span>
+            <span class="ds-swatch__value">D: rgba(12,14,18,0.15)<br/>L: rgba(240,242,244,0.0)</span>
+            <span class="ds-swatch__token">--hero-overlay-start</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Overlay Mid</span>
+            <span class="ds-swatch__value">D: rgba(12,14,18,0.55)<br/>L: rgba(240,242,244,0.55)</span>
+            <span class="ds-swatch__token">--hero-overlay-mid</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Overlay End</span>
+            <span class="ds-swatch__value">D: rgba(12,14,18,0.97)<br/>L: rgba(240,242,244,0.98)</span>
+            <span class="ds-swatch__token">--hero-overlay-end</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="ds-section__subhead">Layer Stack</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">Background image → gradient overlay → vignette → ambient glow → content</span>
+        <p class="ds-showcase__note">hero__bg (image + filter) → hero__bg-overlay (top-to-bottom gradient) → hero__vignette (radial, 0.4 opacity) → hero__glow (teal drift animation, bottom-left)</p>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — NOISE TEXTURE -->
+    <section class="ds-section" aria-labelledby="ds-noise">
+      <span class="section-label" id="ds-noise">Noise Texture</span>
+      <h2 class="ds-section__heading">Film Grain Overlay</h2>
+      <p class="ds-section__desc">A global body::after pseudo-element using SVG feTurbulence fractalNoise. Fixed position, pointer-events: none, z-index: 9999. Opacity controlled by token.</p>
+
+      <div class="ds-grid ds-grid--3">
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Noise Opacity</span>
+            <span class="ds-swatch__value">D: 0.03 / L: 0.015</span>
+            <span class="ds-swatch__token">--noise-opacity</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — MARQUEE -->
+    <section class="ds-section" aria-labelledby="ds-marquee">
+      <span class="section-label" id="ds-marquee">Marquee</span>
+      <h2 class="ds-section__heading">Two-Row Carousel</h2>
+      <p class="ds-section__desc">Two infinite-scrolling rows of service type pills. Row 1 scrolls left, Row 2 scrolls right. Pauses on section hover. Edge fade masks on both sides.</p>
+
+      <div class="ds-grid ds-grid--3">
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Row 1 Speed</span>
+            <span class="ds-swatch__value">50s linear infinite</span>
+            <span class="ds-swatch__token">--marquee-speed-row1</span>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__info">
+            <span class="ds-swatch__name">Row 2 Speed</span>
+            <span class="ds-swatch__value">55s linear infinite (reverse)</span>
+            <span class="ds-swatch__token">--marquee-speed-row2</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="ds-section__subhead">Behavior</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">Interaction model</span>
+        <p class="ds-showcase__note">Items duplicated 4x for seamless loop. Each item is a bordered pill with music note icon. Hover: text/icon go teal, border goes accent. Section hover pauses all animation. Respects prefers-reduced-motion.</p>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — CASE STUDY CARD -->
+    <section class="ds-section" aria-labelledby="ds-case-card">
+      <span class="section-label" id="ds-case-card">Case Study Card</span>
+      <h2 class="ds-section__heading">Portfolio Card Pattern</h2>
+      <p class="ds-section__desc">Image header (200px) with filter and bottom-fade overlay. Accent line hidden by default, visible on hover. Audio player with left-bar border, waveform bars, and progress slider.</p>
+
+      <h3 class="ds-section__subhead">Hover State</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">Card interaction</span>
+        <p class="ds-showcase__note">Card: translateY(-6px), shadow-elevated + shadow-glow, border teal. Image: scale(1.05), filter transitions to hover variant. Accent line fades in (opacity 0 → 1).</p>
+      </div>
+
+      <h3 class="ds-section__subhead">Audio Player</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">Inline player anatomy</span>
+        <p class="ds-showcase__note">Left-bar accent border (3px). Square play button with accent-subtle bg. SVG waveform bars (2px wide, ~48 bars, sine-curve height). Progress slider with scrub handle. Timestamp in mono 10px.</p>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — PHILOSOPHY QUOTE -->
+    <section class="ds-section" aria-labelledby="ds-philosophy">
+      <span class="section-label" id="ds-philosophy">Philosophy Quote</span>
+      <h2 class="ds-section__heading">Blockquote Pattern</h2>
+      <p class="ds-section__desc">Full-width surface-1 section with centered quote. Large decorative opening mark (120px, accent, 10% opacity). Quote in --font-body italic 22px. Attribution flanked by teal dashes.</p>
+
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">Composition</span>
+        <p class="ds-showcase__note">Accent bar (3px) centered at top. Background waveform bars (static, 3% opacity) for texture. Quote mark + blockquote + attribution row.</p>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — ABOUT SPLIT LAYOUT -->
+    <section class="ds-section" aria-labelledby="ds-about-layout">
+      <span class="section-label" id="ds-about-layout">About Layout</span>
+      <h2 class="ds-section__heading">Split Layout Pattern</h2>
+      <p class="ds-section__desc">Two-column grid (1fr 1fr, gap 64px). Left: image with about-img-filter, bottom gradient overlay, glassmorphic badge. Right: heading, body text, 3-column stat callouts, CTA.</p>
+
+      <h3 class="ds-section__subhead">Stat Callouts</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">3-column grid</span>
+        <p class="ds-showcase__note">Each stat: surface-1 bg, left-bar accent, number in accent color (28px, weight 800), label in mono uppercase (10px). Example: "10+" / "Years Experience".</p>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — PROCESS TIMELINE -->
+    <section class="ds-section" aria-labelledby="ds-timeline">
+      <span class="section-label" id="ds-timeline">Process Timeline</span>
+      <h2 class="ds-section__heading">Timeline Pattern</h2>
+      <p class="ds-section__desc">Vertical connecting line (1px, accent gradient fading to border-subtle). Step numbers in 48x48 square badges with left-bar accent. Content alongside with display font title and body font description.</p>
+
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">Vertical line positioning</span>
+        <p class="ds-showcase__note">Line at left: 23px via timeline::before pseudo-element. Gradient: accent → border-subtle (80%) → transparent. Step badges sit over line (z-index: 2).</p>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — FOOTER LAYOUT -->
+    <section class="ds-section" aria-labelledby="ds-footer">
+      <span class="section-label" id="ds-footer">Footer Layout</span>
+      <h2 class="ds-section__heading">Four-Column Footer</h2>
+      <p class="ds-section__desc">Column 1: brand + tagline + badge. Column 2: navigation links. Column 3: service links. Column 4: email + social icons (square bordered, teal hover). Bottom bar with copyright and legal links.</p>
+
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">Grid structure</span>
+        <p class="ds-showcase__note">Desktop: 2fr 1fr 1fr 1fr. Tablet: 2-col. Mobile: single column. Social icons: 36px square, 1px border, teal on hover.</p>
+      </div>
+    </section>
+
+    <div class="ds-divider" aria-hidden="true"></div>
+
+    <!-- PHASE 2 — TYPOGRAPHY USAGE RULES -->
+    <section class="ds-section" aria-labelledby="ds-type-rules">
+      <span class="section-label" id="ds-type-rules">Typography Rules</span>
+      <h2 class="ds-section__heading">Mono vs Sans Usage</h2>
+      <p class="ds-section__desc">Clear rules for when to use each font family across the site.</p>
+
+      <h3 class="ds-section__subhead">--font-mono (Geist Mono)</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">UI elements only</span>
+        <p class="ds-showcase__note">Navigation labels, section labels, CTA button text, timestamps/metadata, badges, genre tags, form field labels, the seram.sound wordmark, token names.</p>
+      </div>
+
+      <h3 class="ds-section__subhead">--font-body (Geist Sans)</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">All content text</span>
+        <p class="ds-showcase__note">Paragraph text, card descriptions, section descriptions, about page body, process step descriptions, contact subtext, any content longer than one line.</p>
       </div>
     </section>
   </div>
