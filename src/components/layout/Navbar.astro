@@ -35,6 +35,7 @@ import { siteConfig } from '../../data/siteConfig';
 
   <div class="navbar__overlay" id="navbar-mobile-overlay" aria-hidden="true">
     <div class="navbar__overlay-content">
+      <a href="/" class="navbar__overlay-link">Home</a>
       {siteConfig.navLinks.map((link) => (
         <a href={link.href} class="navbar__overlay-link">{link.label}</a>
       ))}

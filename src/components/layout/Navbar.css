@@ -19,7 +19,7 @@
 }
 
 .navbar__inner {
-  @apply flex items-center justify-between mx-auto px-6 lg:px-12;
+  @apply relative z-50 flex items-center justify-between mx-auto px-6 lg:px-12;
   @apply h-16 max-w-7xl;
 }
 
