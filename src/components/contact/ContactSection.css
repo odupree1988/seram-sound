@@ -99,15 +99,6 @@
   border-left: 3px solid #e05252;
 }
 
-/* Honeypot */
-.contact__hp {
-  @apply absolute overflow-hidden;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  pointer-events: none;
-}
-
 /* Submit loading state */
 .contact__submit-wrapper {
   @apply self-start mt-2;

@@ -65,12 +65,6 @@ import { siteConfig } from '../../data/siteConfig';
           <span class="contact__error" id="contact-message-error" aria-live="polite"></span>
         </div>
 
-        <!-- Honeypot field for spam prevention -->
-        <div class="contact__hp" aria-hidden="true">
-          <label for="contact-website">Website</label>
-          <input type="text" id="contact-website" name="_gotcha" tabindex="-1" autocomplete="off" />
-        </div>
-
         <div class="contact__submit-wrapper">
           <button type="submit" class="btn--primary contact__submit">
             <span class="contact__submit-text">Send message</span>
@@ -145,10 +139,6 @@ import { siteConfig } from '../../data/siteConfig';
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Honeypot check
-      const honeypot = form.querySelector('[name="_gotcha"]') as HTMLInputElement;
-      if (honeypot?.value) return;
-
       // Validate all fields
       let hasErrors = false;
       Object.keys(validators).forEach((fieldId) => {
@@ -173,9 +163,6 @@ import { siteConfig } from '../../data/siteConfig';
       try {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
-        // Remove honeypot from submission
-        delete data._gotcha;
-
         // Submit to configured endpoint
         // Replace this URL with your Formspree, Getform, or custom API endpoint
         const endpoint = form.getAttribute('action') || '#';
