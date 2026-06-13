@@ -42,6 +42,7 @@ const { src, title } = Astro.props;
 </div>
 
 <script>
+  function initAudioPlayers() {
   document.querySelectorAll('[data-audio-player]').forEach((player) => {
     const el = player as HTMLElement;
     const src = el.dataset.src;
@@ -163,4 +164,7 @@ const { src, title } = Astro.props;
       seekTo(pct);
     });
   });
+  }
+
+  document.addEventListener('astro:page-load', initAudioPlayers);
 </script>

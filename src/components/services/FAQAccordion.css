@@ -1,0 +1,112 @@
+@reference "tailwindcss";
+/* ============================================
+   FAQ ACCORDION
+   ============================================ */
+
+.faq {
+  @apply py-24;
+  background: var(--surface-1);
+}
+
+.faq__inner {
+  @apply mx-auto px-6 lg:px-12;
+  max-width: 760px;
+}
+
+.faq__heading {
+  @apply mt-4 mb-12;
+}
+
+.faq__list {
+  @apply flex flex-col;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.faq__question {
+  @apply flex items-center justify-between gap-4 cursor-pointer;
+  padding: 1.5rem 0;
+  list-style: none;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: color 200ms var(--ease-out-quart);
+}
+
+/* Remove native disclosure marker across browsers */
+.faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.faq__question:hover {
+  color: var(--accent);
+}
+
+.faq__item[open] > .faq__question {
+  color: var(--accent);
+}
+
+.faq__icon {
+  @apply shrink-0;
+  width: 20px;
+  height: 20px;
+  color: var(--text-tertiary);
+  transition: transform 300ms var(--ease-out-expo), color 200ms var(--ease-out-quart);
+}
+
+.faq__item[open] .faq__icon {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+.faq__answer {
+  padding: 0 0 1.5rem;
+  max-width: 640px;
+}
+
+.faq__answer p {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-size: 0.975rem;
+}
+
+/* Subtle reveal of the answer when opened */
+.faq__item[open] .faq__answer {
+  animation: faq-reveal 360ms var(--ease-out-expo);
+}
+
+@keyframes faq-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faq__cta {
+  @apply flex flex-col items-center text-center gap-4;
+  margin-top: 3.5rem;
+}
+
+.faq__cta-text {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-tertiary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__icon,
+  .faq__item[open] .faq__answer {
+    transition: none;
+    animation: none;
+  }
+}

@@ -75,7 +75,9 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
 </article>
 
 <script>
-  // Shared registry: when one player starts, stop all others
+  function initWorkCardPlayers() {
+  // Shared registry: when one player starts, stop all others. Declared inside
+  // init so it resets on each navigation rather than accumulating stale nodes.
   const allPlayers: Array<{ stop: () => void }> = [];
 
   document.querySelectorAll('[data-workcard-player]').forEach((player) => {
@@ -242,4 +244,7 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
       document.addEventListener('touchend', handleTouchEnd);
     }, { passive: true });
   });
+  }
+
+  document.addEventListener('astro:page-load', initWorkCardPlayers);
 </script>

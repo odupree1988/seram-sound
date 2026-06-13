@@ -530,8 +530,14 @@ import { siteConfig } from '../data/siteConfig';
 
       <h3 class="ds-section__subhead">Layer Stack</h3>
       <div class="ds-showcase">
-        <span class="ds-showcase__label">Background image → gradient overlay → vignette → ambient glow → content</span>
-        <p class="ds-showcase__note">hero__bg (image + filter) → hero__bg-overlay (top-to-bottom gradient) → hero__vignette (radial, 0.4 opacity) → hero__glow (teal drift animation, bottom-left)</p>
+        <span class="ds-showcase__label">Waveform (z-1) → glow (z-0) → content (z-10)</span>
+        <p class="ds-showcase__note">hero__glow (radial teal, pulsing) → hero__waveform (260 bars, 180px tall, 7% opacity dark / 11% light) → hero__content (all text, z-index 10)</p>
+      </div>
+
+      <h3 class="ds-section__subhead">Waveform Edge Fade</h3>
+      <div class="ds-showcase">
+        <span class="ds-showcase__label">Pipeline note: mask-image must be inline</span>
+        <p class="ds-showcase__note">The mask-image and -webkit-mask-image properties are stripped by the Tailwind/Vite CSS processing pipeline when placed in .css files. Apply them as inline style attributes directly on waveform elements: style="mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%); -webkit-mask-image: ..."</p>
       </div>
     </section>
 

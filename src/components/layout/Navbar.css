@@ -4,23 +4,25 @@
    ============================================ */
 
 .navbar {
-  @apply fixed top-0 left-0 right-0 z-50 border-b border-b-transparent;
-  transition:
-    background      350ms var(--ease-out-quart),
-    border-color    350ms var(--ease-out-quart),
-    backdrop-filter 350ms var(--ease-out-quart);
+  @apply fixed top-0 left-0 right-0 z-50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  padding: 0 24px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .navbar--scrolled {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-  border-bottom-color: var(--glass-border);
+  /* Glass is always on per mockup — this class is kept for compatibility but no visual change */
 }
 
 .navbar__inner {
-  @apply relative z-50 flex items-center justify-between mx-auto px-6 lg:px-12;
-  @apply h-16 max-w-7xl;
+  @apply relative z-50 flex items-center justify-between;
+  @apply w-full max-w-7xl;
 }
 
 .navbar__brand {
@@ -28,7 +30,6 @@
   color: var(--text-secondary);
   font-family: var(--font-mono);
   letter-spacing: 0.5px;
-  transition: color var(--transition-fast);
 }
 
 .navbar__brand:hover {
@@ -36,9 +37,11 @@
 }
 
 .navbar__dot {
-  @apply block w-1.5 h-1.5 rounded-full;
+  @apply block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
   background: var(--accent);
-  animation: pulse 3s ease-in-out infinite;
 }
 
 .navbar__name {
@@ -47,24 +50,22 @@
 
 .navbar__links {
   @apply hidden lg:flex items-center gap-8;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-tertiary);
 }
 
 .navbar__link {
-  @apply no-underline text-xs;
+  @apply no-underline;
   color: var(--text-tertiary);
   font-family: var(--font-mono);
+  font-size: 12px;
   letter-spacing: 0.5px;
   transition: color var(--transition-fast);
 }
 
 .navbar__link:hover {
   color: var(--text-primary);
-}
-
-/* Divider before theme toggle */
-.navbar__divider {
-  @apply block w-px h-5;
-  background: var(--border-hover);
 }
 
 /* Hamburger */
@@ -119,4 +120,3 @@
 .navbar__overlay-link:hover {
   color: var(--text-primary);
 }
-

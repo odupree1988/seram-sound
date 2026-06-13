@@ -94,4 +94,40 @@ export const siteConfig = {
       imageSrc: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80",
     },
   ],
+
+  // Footer trust signals — confirmed accurate with client (10+ yrs, 100+ projects).
+  // Third stat is intentionally dynamic: turnaround depends on project type + client needs.
+  trustStats: [
+    { value: "10+", label: "Years in music production" },
+    { value: "100+", label: "Original compositions" },
+    { value: "Flexible", label: "Turnaround shaped around your project" },
+  ],
+
+  // Services-page FAQ. Pricing/revision figures match the Services pricing copy.
+  faqs: [
+    {
+      q: "How much does a custom score cost?",
+      a: "Every project is quoted individually. Most short-form work starts around $1,000, with the final number depending on length, the complexity of the score, your timeline, and licensing needs. You'll get a clear, itemized quote before any work begins.",
+    },
+    {
+      q: "How long does it take?",
+      a: "Turnaround is shaped around your project and deadline. A short social spot can come together in a matter of days, while a documentary or series score naturally runs longer. I'll map out a realistic timeline in your quote and build the schedule around your delivery date.",
+    },
+    {
+      q: "How many revisions are included?",
+      a: "Up to two rounds of revisions are included in every quote, so we can refine the score until it serves your edit. Additional rounds can be added if a project calls for it.",
+    },
+    {
+      q: "Do you use AI or stock music?",
+      a: "Never. Every score is 100% original and human-composed — no generative AI, no stock libraries, no shortcuts. You get music written specifically for your story.",
+    },
+    {
+      q: "Who owns the music and how does licensing work?",
+      a: "You receive a license to use the score for your project, with the exact scope and usage rights laid out in your agreement up front. If you have specific distribution or platform needs, we'll cover them before the project starts.",
+    },
+    {
+      q: "How do we get started?",
+      a: "Send me your project details through the contact form. We'll have a short discovery call, I'll send a quote and agreement, and once a 50% deposit is in place I begin composing. The remaining balance is due on final delivery.",
+    },
+  ],
 };

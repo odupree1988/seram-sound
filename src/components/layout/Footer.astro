@@ -22,6 +22,15 @@ const serviceLinks = [
 
 <footer class="footer">
   <div class="footer__inner">
+    <div class="footer__trust">
+      {siteConfig.trustStats.map((stat) => (
+        <div class="footer__trust-item">
+          <span class="footer__trust-value">{stat.value}</span>
+          <span class="footer__trust-label">{stat.label}</span>
+        </div>
+      ))}
+    </div>
+
     <div class="footer__columns">
       <!-- Column 1: Brand -->
       <div class="footer__col footer__col--brand">

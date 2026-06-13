@@ -1,6 +1,5 @@
 ---
 import './Navbar.css';
-import ThemeToggle from '../ui/ThemeToggle.astro';
 import { siteConfig } from '../../data/siteConfig';
 ---
 
@@ -16,8 +15,6 @@ import { siteConfig } from '../../data/siteConfig';
         <a href={link.href} class="navbar__link">{link.label}</a>
       ))}
       <a href="/contact" class="btn--nav">Get a Quote</a>
-      <span class="navbar__divider" aria-hidden="true"></span>
-      <ThemeToggle />
     </div>
 
     <button
@@ -45,18 +42,26 @@ import { siteConfig } from '../../data/siteConfig';
 </nav>
 
 <script>
-  const navbar = document.getElementById('navbar');
-  const hamburger = document.getElementById('navbar-hamburger');
-  const overlay = document.getElementById('navbar-mobile-overlay');
+  // Module-level refs, refreshed on each navigation so the once-bound
+  // window/document listeners always act on the current page's elements.
+  let navbar: HTMLElement | null = null;
+  let hamburger: HTMLElement | null = null;
+  let overlay: HTMLElement | null = null;
+  let globalsBound = false;
 
-  // Glass blur on scroll
-  window.addEventListener('scroll', () => {
+  function onScroll() {
     if (window.scrollY > 20) {
       navbar?.classList.add('navbar--scrolled');
     } else {
       navbar?.classList.remove('navbar--scrolled');
     }
-  });
+  }
+
+  function onKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape' && hamburger?.getAttribute('aria-expanded') === 'true') {
+      closeMenu();
+    }
+  }
 
   function openMenu() {
     hamburger?.setAttribute('aria-expanded', 'true');
@@ -78,44 +83,55 @@ import { siteConfig } from '../../data/siteConfig';
     hamburger?.focus();
   }
 
-  // Mobile menu toggle
-  hamburger?.addEventListener('click', () => {
-    const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
+  function initNavbar() {
+    navbar = document.getElementById('navbar');
+    hamburger = document.getElementById('navbar-hamburger');
+    overlay = document.getElementById('navbar-mobile-overlay');
 
-  // Close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && hamburger?.getAttribute('aria-expanded') === 'true') {
-      closeMenu();
-    }
-  });
+    // Reflect the current scroll position for the freshly-loaded page.
+    onScroll();
 
-  // Focus trap inside overlay
-  overlay?.addEventListener('keydown', (e) => {
-    if (e.key !== 'Tab') return;
-    const focusable = overlay.querySelectorAll('a, button') as NodeListOf<HTMLElement>;
-    if (focusable.length === 0) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  });
-
-  // Close overlay on link click
-  overlay?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      closeMenu();
+    // Mobile menu toggle (bound to the fresh hamburger element)
+    hamburger?.addEventListener('click', () => {
+      const isOpen = hamburger!.getAttribute('aria-expanded') === 'true';
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
-  });
+
+    // Focus trap inside overlay
+    overlay?.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusable = overlay!.querySelectorAll('a, button') as NodeListOf<HTMLElement>;
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    // Close overlay on link click
+    overlay?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    // Window/document listeners only need binding once for the session.
+    if (!globalsBound) {
+      globalsBound = true;
+      window.addEventListener('scroll', onScroll);
+      document.addEventListener('keydown', onKeydown);
+    }
+  }
+
+  document.addEventListener('astro:page-load', initNavbar);
 </script>

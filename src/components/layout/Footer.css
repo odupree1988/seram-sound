@@ -13,6 +13,40 @@
   @apply mx-auto px-6 lg:px-12 pt-16 pb-8 max-w-7xl;
 }
 
+/* ---- Trust signals band ---- */
+.footer__trust {
+  @apply grid gap-6 pb-12 mb-12;
+  grid-template-columns: 1fr;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+@media (min-width: 640px) {
+  .footer__trust {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+.footer__trust-item {
+  @apply flex flex-col;
+  padding-left: 0.875rem;
+  border-left: 3px solid var(--accent);
+}
+
+.footer__trust-value {
+  @apply font-bold leading-none;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  color: var(--text-primary);
+}
+
+.footer__trust-label {
+  @apply text-xs uppercase;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
 /* ---- Four-column grid ---- */
 .footer__columns {
   @apply grid gap-8 pb-12;

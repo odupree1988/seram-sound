@@ -10,9 +10,10 @@ import './StickyGetQuote.css';
 </div>
 
 <script>
-  const stickyCta = document.getElementById('sticky-cta');
+  let stickyCta: HTMLElement | null = null;
+  let scrollBound = false;
 
-  window.addEventListener('scroll', () => {
+  function onScroll() {
     const threshold = window.innerHeight * 0.8;
     if (window.scrollY > threshold) {
       stickyCta?.classList.add('sticky-cta--visible');
@@ -21,5 +22,19 @@ import './StickyGetQuote.css';
       stickyCta?.classList.remove('sticky-cta--visible');
       stickyCta?.setAttribute('aria-hidden', 'true');
     }
-  });
+  }
+
+  function initStickyCta() {
+    // Re-grab the element each navigation (it may be absent on pages that
+    // pass hideStickyCTA, and is a fresh node when present).
+    stickyCta = document.getElementById('sticky-cta');
+    onScroll();
+
+    if (!scrollBound) {
+      scrollBound = true;
+      window.addEventListener('scroll', onScroll);
+    }
+  }
+
+  document.addEventListener('astro:page-load', initStickyCta);
 </script>

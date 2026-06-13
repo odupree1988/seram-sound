@@ -1,38 +1,102 @@
 ---
-import './ThemeToggleMobile.css';
 ---
 
-<button class="theme-toggle-mobile" id="theme-toggle-mobile" aria-label="Toggle theme">
+<button class="theme-toggle-float" id="theme-toggle-float" aria-label="Toggle theme">
+  <span class="theme-toggle-float__label" id="theme-toggle-label">Light</span>
   <!-- Sun icon: shown in dark mode -->
-  <svg class="theme-toggle-mobile__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <svg class="theme-toggle-float__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <circle cx="12" cy="12" r="5"/>
     <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
   </svg>
   <!-- Moon icon: shown in light mode -->
-  <svg class="theme-toggle-mobile__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <svg class="theme-toggle-float__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
   </svg>
 </button>
 
-<script>
-  const toggleMobile = document.getElementById('theme-toggle-mobile');
+<style>
+  @reference "tailwindcss";
 
-  function getSystemThemeMobile() {
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  .theme-toggle-float {
+    @apply fixed z-50 flex items-center gap-2.5 cursor-pointer;
+    bottom: 24px;
+    right: 24px;
+    padding: 10px 18px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    transition: all 0.3s ease;
   }
 
-  toggleMobile?.addEventListener('click', () => {
-    const stored = localStorage.getItem('theme-preference');
+  .theme-toggle-float:hover {
+    border-color: var(--accent);
+  }
 
-    if (stored) {
-      localStorage.removeItem('theme-preference');
-      const systemTheme = getSystemThemeMobile();
-      document.documentElement.setAttribute('data-theme', systemTheme);
-    } else {
+  .theme-toggle-float svg {
+    @apply w-4 h-4;
+    stroke: var(--accent);
+  }
+
+  .theme-toggle-float__label {
+    @apply block;
+  }
+
+  /* Dark mode: show sun, hide moon, label says "Light" */
+  .theme-toggle-float__icon--moon {
+    @apply hidden;
+  }
+
+  /* Light mode: show moon, hide sun, label says "Dark" */
+  [data-theme="light"] .theme-toggle-float__icon--sun {
+    @apply hidden;
+  }
+
+  [data-theme="light"] .theme-toggle-float__icon--moon {
+    @apply block;
+  }
+</style>
+
+<script>
+  let labelEl: HTMLElement | null = null;
+  let mediaBound = false;
+
+  function updateLabel() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    if (labelEl) labelEl.textContent = current === 'dark' ? 'Light' : 'Dark';
+  }
+
+  function onSystemChange(e: MediaQueryListEvent) {
+    if (!localStorage.getItem('theme-preference')) {
+      document.documentElement.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+      updateLabel();
+    }
+  }
+
+  function initThemeToggleMobile() {
+    const toggleFloat = document.getElementById('theme-toggle-float');
+    labelEl = document.getElementById('theme-toggle-label');
+
+    updateLabel();
+
+    toggleFloat?.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme') || 'dark';
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('theme-preference', next);
+      updateLabel();
+    });
+
+    if (!mediaBound) {
+      mediaBound = true;
+      window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', onSystemChange);
     }
-  });
+  }
+
+  document.addEventListener('astro:page-load', initThemeToggleMobile);
 </script>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProcessSteps from '../components/services/ProcessSteps.astro';
+import FAQAccordion from '../components/services/FAQAccordion.astro';
 import ScrollReveal from '../components/ui/ScrollReveal.astro';
 import { siteConfig } from '../data/siteConfig';
 ---
@@ -60,6 +61,8 @@ import { siteConfig } from '../data/siteConfig';
       </ScrollReveal>
     </div>
   </section>
+
+  <FAQAccordion />
 </BaseLayout>
 
 <style>

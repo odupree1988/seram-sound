@@ -1,0 +1,42 @@
+---
+import './FAQAccordion.css';
+import ScrollReveal from '../ui/ScrollReveal.astro';
+import { siteConfig } from '../../data/siteConfig';
+---
+
+<section class="faq" aria-labelledby="faq-heading">
+  <div class="faq__inner">
+    <ScrollReveal>
+      <span class="section-label">FAQ</span>
+      <h2 class="section-heading faq__heading" id="faq-heading">Frequently asked questions</h2>
+    </ScrollReveal>
+
+    <ScrollReveal delay={100}>
+      <div class="faq__list">
+        {siteConfig.faqs.map((item) => (
+          <details class="faq__item" name="faq">
+            <summary class="faq__question">
+              <span>{item.q}</span>
+              <svg class="faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </summary>
+            <div class="faq__answer">
+              <p>{item.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </ScrollReveal>
+
+    <ScrollReveal delay={200}>
+      <div class="faq__cta">
+        <p class="faq__cta-text">Still have a question?</p>
+        <a href="/contact" class="btn--secondary">
+          Get in touch
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </ScrollReveal>
+  </div>
+</section>

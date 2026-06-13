@@ -1,111 +1,56 @@
 ---
 import './Hero.css';
-import HumanBadge from '../ui/HumanBadge.astro';
-import { siteConfig } from '../../data/siteConfig';
 ---
 
 <section class="hero" id="hero">
-  <!-- Background image layer -->
-  <div class="hero__bg" aria-hidden="true">
-    <img
-      src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80"
-      alt=""
-      class="hero__bg-img"
-      loading="eager"
-    />
-  </div>
-
-  <!-- Gradient overlay -->
-  <div class="hero__bg-overlay" aria-hidden="true"></div>
-
-  <!-- Vignette -->
-  <div class="hero__vignette" aria-hidden="true"></div>
-
-  <!-- Ambient glow -->
+  <!-- Radial glow behind waveform -->
   <div class="hero__glow" aria-hidden="true"></div>
 
-  <div class="hero__inner">
-    <!-- Left-aligned, bottom-anchored content -->
-    <div class="hero__content">
-      <span class="section-label">Original Scoring Studio</span>
+  <!-- Centered synth waveform — wide, flat, organic -->
+  <div class="hero__waveform" aria-hidden="true" style="mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%); -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)">
+    {Array.from({ length: 260 }, (_, i) => {
+      const pos = i / 260;
+      const curve = 0.2 + 0.4 * Math.pow(Math.cos((pos - 0.5) * Math.PI), 2);
+      const noise = (Math.random() - 0.5) * 0.15;
+      const height = Math.max(0.08, Math.min(0.75, curve + noise));
+      const duration = (3 + Math.random() * 4).toFixed(2);
+      const delay = (Math.random() * 5).toFixed(2);
+      return (
+        <span
+          class="hero__bar"
+          style={`height: ${(height * 100).toFixed(1)}%; --bar-dur: ${duration}s; --bar-delay: ${delay}s`}
+        />
+      );
+    })}
+  </div>
 
-      <h1 class="hero__name">
-        <span class="hero__name-line hero__name-line--solid">SERAM</span>
-        <span class="hero__name-line hero__name-line--outlined">SOUND</span>
-      </h1>
+  <!-- Centered content -->
+  <div class="hero__content">
+    <span class="hero__label">Original Scoring Studio</span>
 
-      <div class="hero__accent-bar" aria-hidden="true"></div>
+    <h1 class="hero__name">
+      <span class="hero__name-line hero__name-line--solid">SERAM</span>
+      <span class="hero__name-line hero__name-line--outlined">SOUND</span>
+    </h1>
 
-      <p class="hero__intro">Original music composed to picture for short film, branded content, and independent productions. One composer, direct collaboration, every note written by hand.</p>
+    <div class="hero__accent-bar" aria-hidden="true"></div>
 
-      <div class="hero__ctas">
-        <a href="/portfolio" class="btn--primary">
-          Listen to the work
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-        </a>
-        <div class="hero__cta-divider" aria-hidden="true"></div>
-        <a href="/contact" class="btn--secondary">
-          Start a project
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
+    <p class="hero__intro">Original music composed to picture for short film, branded content, and independent productions. One composer, direct collaboration, every note written by hand.</p>
 
-      <div class="hero__pills">
-        {siteConfig.serviceTypes.slice(0, 6).map((service) => (
-          <span class="pill">{service}</span>
-        ))}
-      </div>
-
-      <div class="hero__badge">
-        <HumanBadge />
-      </div>
-    </div>
-
-    <!-- Right decorative DAW visual -->
-    <div class="hero__visual" aria-hidden="true">
-      <div class="hero__daw">
-        <div class="hero__daw-chrome">
-          <span class="hero__daw-dot"></span>
-          <span class="hero__daw-dot"></span>
-          <span class="hero__daw-dot"></span>
-          <span class="hero__daw-title">Session — Untitled</span>
-        </div>
-        <div class="hero__daw-timeline">
-          <div class="hero__daw-track">
-            <span class="hero__daw-track-label">Strings</span>
-            <div class="hero__daw-waveform hero__daw-waveform--1"></div>
-          </div>
-          <div class="hero__daw-track">
-            <span class="hero__daw-track-label">Piano</span>
-            <div class="hero__daw-waveform hero__daw-waveform--2"></div>
-          </div>
-          <div class="hero__daw-track">
-            <span class="hero__daw-track-label">Perc</span>
-            <div class="hero__daw-waveform hero__daw-waveform--3"></div>
-          </div>
-          <div class="hero__daw-track">
-            <span class="hero__daw-track-label">Amb</span>
-            <div class="hero__daw-waveform hero__daw-waveform--4"></div>
-          </div>
-          <div class="hero__daw-track">
-            <span class="hero__daw-track-label">Master</span>
-            <div class="hero__daw-waveform hero__daw-waveform--5"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stacked card behind -->
-      <div class="hero__daw-card-behind">
-        <div class="hero__daw-chrome">
-          <span class="hero__daw-dot"></span>
-          <span class="hero__daw-dot"></span>
-          <span class="hero__daw-dot"></span>
-        </div>
-      </div>
+    <div class="hero__ctas">
+      <a href="/portfolio" class="btn--primary">
+        Listen to the work
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+      </a>
+      <div class="hero__cta-divider" aria-hidden="true"></div>
+      <a href="/contact" class="btn--secondary">
+        Start a project
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </a>
     </div>
   </div>
 
-  <!-- Scroll indicator (centered bottom) -->
+  <!-- Scroll indicator -->
   <div class="hero__scroll" aria-hidden="true">
     <span class="hero__scroll-text">Scroll</span>
     <span class="hero__scroll-line"></span>

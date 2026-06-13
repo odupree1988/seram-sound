@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<BaseLayout
+  title={`Page Not Found | ${siteConfig.metadata.siteName}`}
+  description="The page you're looking for doesn't exist. Head back home or explore the work."
+  hideStickyCTA={true}
+>
+  <section class="notfound">
+    <div class="notfound__inner">
+      <span class="section-label">Error 404</span>
+      <p class="notfound__code" aria-hidden="true">404</p>
+      <h1 class="section-heading notfound__heading">This track isn't here</h1>
+      <p class="notfound__text">
+        The page you're looking for doesn't exist or may have moved. Let's get you back to
+        something worth listening to.
+      </p>
+
+      <div class="notfound__actions">
+        <a href="/" class="btn--primary">
+          Back home
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="/portfolio" class="btn--secondary">
+          View the work
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <nav class="notfound__links" aria-label="Site sections">
+        {siteConfig.navLinks.map((link) => (
+          <a href={link.href} class="notfound__link">{link.label}</a>
+        ))}
+        <a href="/contact" class="notfound__link">Contact</a>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  @reference "tailwindcss";
+
+  .notfound {
+    @apply flex items-center justify-center;
+    min-height: 70vh;
+    padding: 6rem 1.5rem;
+    background: var(--surface-0);
+  }
+
+  .notfound__inner {
+    @apply mx-auto text-center;
+    max-width: 560px;
+  }
+
+  .notfound__code {
+    @apply font-bold;
+    font-family: var(--font-mono);
+    font-size: clamp(4.5rem, 18vw, 9rem);
+    line-height: 1;
+    margin: 1rem 0 0.5rem;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--text-tertiary);
+    letter-spacing: 0.05em;
+  }
+
+  .notfound__heading {
+    @apply mb-4;
+  }
+
+  .notfound__text {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0 auto 2.5rem;
+    max-width: 420px;
+  }
+
+  .notfound__actions {
+    @apply flex flex-wrap items-center justify-center gap-4;
+  }
+
+  .notfound__links {
+    @apply flex flex-wrap items-center justify-center gap-x-6 gap-y-2;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .notfound__link {
+    @apply text-xs uppercase no-underline;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    transition: color 200ms var(--ease-out-quart);
+  }
+
+  .notfound__link:hover {
+    color: var(--accent);
+  }
+</style>

@@ -33,33 +33,44 @@
 </style>
 
 <script>
-  const toggle = document.getElementById('theme-toggle');
+  let mediaBound = false;
 
   function getSystemTheme() {
     return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
   }
 
-  toggle?.addEventListener('click', () => {
-    const stored = localStorage.getItem('theme-preference');
-
-    if (stored) {
-      // User has an explicit override — clear it, return to system preference
-      localStorage.removeItem('theme-preference');
-      const systemTheme = getSystemTheme();
-      document.documentElement.setAttribute('data-theme', systemTheme);
-    } else {
-      // Currently following system — set explicit opposite
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme-preference', next);
-    }
-  });
-
-  // Listen for OS theme changes when no explicit preference is stored
-  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+  function onSystemChange(e: MediaQueryListEvent) {
     if (!localStorage.getItem('theme-preference')) {
       document.documentElement.setAttribute('data-theme', e.matches ? 'light' : 'dark');
     }
-  });
+  }
+
+  function initThemeToggle() {
+    // Bind the click to the freshly-swapped toggle on each navigation.
+    const toggle = document.getElementById('theme-toggle');
+    toggle?.addEventListener('click', () => {
+      const stored = localStorage.getItem('theme-preference');
+
+      if (stored) {
+        // User has an explicit override — clear it, return to system preference
+        localStorage.removeItem('theme-preference');
+        const systemTheme = getSystemTheme();
+        document.documentElement.setAttribute('data-theme', systemTheme);
+      } else {
+        // Currently following system — set explicit opposite
+        const current = document.documentElement.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme-preference', next);
+      }
+    });
+
+    // OS theme listener only needs binding once for the session.
+    if (!mediaBound) {
+      mediaBound = true;
+      window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', onSystemChange);
+    }
+  }
+
+  document.addEventListener('astro:page-load', initThemeToggle);
 </script>

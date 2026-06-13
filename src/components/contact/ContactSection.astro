@@ -89,8 +89,9 @@ import { siteConfig } from '../../data/siteConfig';
 </section>
 
 <script>
-  const form = document.querySelector('[data-contact-form]') as HTMLFormElement;
-  if (form) {
+  function initContactForm() {
+    const form = document.querySelector('[data-contact-form]') as HTMLFormElement;
+    if (!form) return;
     const statusEl = form.querySelector('[data-form-status]') as HTMLElement;
     const submitBtn = form.querySelector('.contact__submit') as HTMLButtonElement;
 
@@ -203,4 +204,6 @@ import { siteConfig } from '../../data/siteConfig';
       }
     });
   }
+
+  document.addEventListener('astro:page-load', initContactForm);
 </script>

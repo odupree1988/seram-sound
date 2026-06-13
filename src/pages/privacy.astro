@@ -1,0 +1,83 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<LegalLayout
+  title={`Privacy Policy | ${siteConfig.metadata.siteName}`}
+  description="How Seram Sound collects, uses, and protects the information you share — including details submitted through the contact form."
+  heading="Privacy Policy"
+  lastUpdated="June 12, 2026"
+>
+  <p>
+    Your privacy matters. This policy explains, in plain language, what information
+    {siteConfig.name} collects, why, and how it's handled. If anything here is unclear,
+    reach out at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> and I'll
+    be glad to walk you through it.
+  </p>
+
+  <h2>What I collect</h2>
+  <p>I only collect what's needed to respond to your inquiry and discuss your project:</p>
+  <ul>
+    <li><strong>Contact details</strong> — your name and email address.</li>
+    <li><strong>Project details</strong> — anything you share about your project type, budget range, deadline, and creative direction.</li>
+    <li><strong>Basic usage data</strong> — standard, anonymized analytics (such as pages visited) that help me understand how the site is used. This is never tied to your identity.</li>
+  </ul>
+
+  <h2>How your information is used</h2>
+  <p>Information you provide is used solely to:</p>
+  <ul>
+    <li>Respond to your message and answer questions.</li>
+    <li>Prepare a quote and discuss the scope of your project.</li>
+    <li>Deliver and support work you've commissioned.</li>
+  </ul>
+  <p>I do not sell, rent, or trade your information, and I won't add you to marketing lists without your clear consent.</p>
+
+  <h2>How the contact form works</h2>
+  <p>
+    Messages sent through the contact form are processed by a secure third-party form
+    provider that delivers them to my inbox. That provider processes your submission only
+    to relay it to me. If you'd rather not use the form, you can always email me directly at
+    <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+  </p>
+
+  <h2>Data retention</h2>
+  <p>
+    I keep inquiry and project correspondence for as long as it's needed to serve you and to
+    meet legal or accounting obligations. If you'd like your information removed, just ask.
+  </p>
+
+  <h2>Your rights</h2>
+  <p>
+    Wherever you're located — and in line with regulations such as the GDPR and CCPA — you can
+    request to:
+  </p>
+  <ul>
+    <li>Access the personal information I hold about you.</li>
+    <li>Correct anything that's inaccurate.</li>
+    <li>Have your information deleted.</li>
+    <li>Opt out of any non-essential communication.</li>
+  </ul>
+  <p>
+    To make a request, email <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> and
+    I'll respond promptly.
+  </p>
+
+  <h2>Cookies &amp; analytics</h2>
+  <p>
+    This site uses minimal, privacy-respecting analytics to understand general traffic patterns.
+    It does not use invasive tracking or advertising cookies. Your browser settings let you control
+    or block cookies at any time.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    This policy may be updated from time to time. When it changes, the "last updated" date above
+    will reflect the revision. Material changes will be noted clearly.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about your privacy? Email <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+  </p>
+</LegalLayout>

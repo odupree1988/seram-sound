@@ -13,7 +13,14 @@
 }
 
 .portfolio__heading {
-  @apply mt-4 mb-12;
+  @apply mt-4 mb-3;
+}
+
+.portfolio__subheading {
+  @apply mb-12;
+  max-width: 540px;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 .portfolio__grid {

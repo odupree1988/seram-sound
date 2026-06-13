@@ -1,0 +1,121 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ScrollReveal from '../components/ui/ScrollReveal.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  lastUpdated: string;
+}
+
+const { title, description, heading, lastUpdated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="legal" aria-labelledby="legal-heading">
+    <div class="legal__inner">
+      <ScrollReveal>
+        <span class="section-label">Legal</span>
+        <h1 class="section-heading legal__heading" id="legal-heading">{heading}</h1>
+        <p class="legal__updated">Last updated: {lastUpdated}</p>
+      </ScrollReveal>
+
+      <ScrollReveal delay={100}>
+        <div class="legal__body">
+          <slot />
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  @reference "tailwindcss";
+
+  .legal {
+    @apply py-24;
+    background: var(--surface-0);
+  }
+
+  .legal__inner {
+    @apply mx-auto px-6 lg:px-12;
+    max-width: 720px;
+  }
+
+  .legal__heading {
+    @apply mt-4 mb-3;
+  }
+
+  .legal__updated {
+    @apply text-xs uppercase;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    margin-bottom: 3rem;
+  }
+
+  /* Shared legal/long-form copy styles — reusable via .legal__body */
+  .legal__body :global(h2) {
+    @apply text-xl font-semibold;
+    color: var(--text-primary);
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    padding-left: 0.75rem;
+    border-left: 3px solid var(--accent);
+  }
+
+  .legal__body :global(h3) {
+    @apply text-base font-semibold;
+    color: var(--text-primary);
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal__body :global(p),
+  .legal__body :global(li) {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    font-size: 0.975rem;
+  }
+
+  .legal__body :global(p) {
+    margin-bottom: 1.1rem;
+  }
+
+  .legal__body :global(ul) {
+    @apply pl-5;
+    list-style: disc;
+    margin-bottom: 1.1rem;
+  }
+
+  .legal__body :global(li) {
+    margin-bottom: 0.4rem;
+  }
+
+  .legal__body :global(a) {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-subtle);
+    transition: border-color 200ms var(--ease-out-quart);
+  }
+
+  .legal__body :global(a:hover) {
+    border-color: var(--accent);
+  }
+
+  .legal__body :global(strong) {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  @media print {
+    .legal {
+      @apply py-8;
+    }
+    .legal__body :global(a) {
+      border-bottom: none;
+      color: inherit;
+    }
+  }
+</style>

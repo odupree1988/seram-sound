@@ -1,109 +1,81 @@
 @reference "tailwindcss";
 /* ============================================
-   HERO SECTION — Phase 2
+   HERO SECTION
    ============================================ */
 
 .hero {
-  @apply relative min-h-screen overflow-hidden flex;
-  justify-content: flex-end;
-  flex-direction: column;
-  padding-bottom: 110px;
-  background: var(--surface-0);
+  @apply relative min-h-screen overflow-hidden flex flex-col items-center justify-center;
+  padding: 120px 24px 100px;
+  background: var(--bg-primary);
 }
 
-/* ---- Background image ---- */
-.hero__bg {
-  @apply absolute inset-0;
-  z-index: 1;
-}
-
-.hero__bg-img {
-  @apply w-full h-full object-cover;
-  filter: var(--hero-img-filter);
-}
-
-/* ---- Gradient overlay ---- */
-.hero__bg-overlay {
-  @apply absolute inset-0;
-  z-index: 2;
-  background: linear-gradient(
-    180deg,
-    var(--hero-overlay-start) 0%,
-    var(--hero-overlay-mid) 50%,
-    var(--hero-overlay-end) 100%
-  );
-}
-
-/* ---- Vignette ---- */
-.hero__vignette {
-  @apply absolute inset-0 pointer-events-none;
-  z-index: 3;
-  background: radial-gradient(ellipse at center, transparent 40%, var(--bg-primary) 100%);
-  opacity: 0.4;
-}
-
-/* ---- Ambient glow (bottom-left, slow drift) ---- */
+/* ---- Radial glow ---- */
 .hero__glow {
   @apply absolute pointer-events-none;
-  bottom: 10%;
-  left: 5%;
-  width: 50%;
-  height: 60%;
-  background: radial-gradient(ellipse at center, var(--hero-glow-color) 0%, transparent 70%);
-  z-index: 4;
-  animation: hero-glow-drift 8s ease-in-out infinite alternate;
+  top: 50%;
+  left: 50%;
+  width: 650px;
+  height: 350px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(72, 200, 180, 0.06) 0%, transparent 70%);
+  z-index: 0;
+  animation: hero-glow-pulse 6s ease-in-out infinite;
 }
 
-/* ---- Staggered entrance for hero children ---- */
-@media (prefers-reduced-motion: no-preference) {
-  .hero__content > * {
-    opacity: 0;
-    animation: hero-reveal-up var(--duration-reveal) var(--ease-out-expo) forwards;
-  }
-
-  /* Stagger: label → name → accent-bar → intro → ctas → pills → badge */
-  .hero__content > :nth-child(1) { animation-delay: 100ms; }
-  .hero__content > :nth-child(2) { animation-delay: 200ms; }
-  .hero__content > :nth-child(3) { animation-delay: 550ms; }
-  .hero__content > :nth-child(4) { animation-delay: 450ms; }
-  .hero__content > :nth-child(5) { animation-delay: 600ms; }
-  .hero__content > :nth-child(6) { animation-delay: 750ms; }
-  .hero__content > :nth-child(7) { animation-delay: 900ms; }
-
-  /* Hero name gets a scale-in instead of slide-up */
-  .hero__content > .hero__name {
-    animation-name: hero-scale-in;
-    animation-delay: 200ms;
-  }
-
-  /* DAW visual fades in after content */
-  .hero__visual {
-    opacity: 0;
-    animation: hero-fade-in 800ms var(--ease-out-expo) 700ms forwards;
-  }
-
-  /* Scroll indicator comes last */
-  .hero__scroll {
-    opacity: 0;
-    animation: hero-fade-in 600ms var(--ease-out-expo) 1400ms forwards;
-  }
+[data-theme="light"] .hero__glow {
+  background: radial-gradient(ellipse, rgba(30, 130, 115, 0.04) 0%, transparent 70%);
 }
 
-.hero__inner {
-  @apply relative z-10 flex items-end justify-between;
-  @apply w-full mx-auto px-6 lg:px-12 gap-16 max-w-7xl;
+/* ---- Waveform: wide, flat, behind content ---- */
+/* NOTE: mask-image is applied inline in Hero.astro to bypass Tailwind/Vite stripping */
+.hero__waveform {
+  @apply absolute flex items-center justify-center pointer-events-none;
+  top: 55.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 92%;
+  max-width: 1200px;
+  height: 105px;
+  gap: 2px;
+  z-index: 1;
+  opacity: 0.07;
 }
 
-/* Left content */
+[data-theme="light"] .hero__waveform {
+  opacity: 0.18;
+}
+
+.hero__bar {
+  @apply shrink-0;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  animation: bar-breathe var(--bar-dur) ease-in-out var(--bar-delay) infinite;
+}
+
+/* ---- Content: z-index above waveform ---- */
 .hero__content {
-  @apply flex flex-col gap-6 max-w-xl;
+  @apply relative flex flex-col items-center text-center;
+  z-index: 10;
+  max-width: 800px;
+}
+
+.hero__label {
+  @apply uppercase;
+  font-size: 11px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  letter-spacing: 3px;
+  margin-bottom: 24px;
 }
 
 .hero__name {
   @apply leading-none font-extrabold;
   font-family: var(--font-display);
-  font-size: clamp(48px, 8vw, 96px);
-  letter-spacing: -1.5px;
+  font-size: clamp(56px, 10vw, 112px);
+  line-height: 0.9;
+  letter-spacing: -2.5px;
+  margin-bottom: 32px;
 }
 
 .hero__name-line {
@@ -119,192 +91,37 @@
   -webkit-text-stroke: 1.5px var(--text-secondary);
 }
 
-/* Teal accent divider bar */
 .hero__accent-bar {
-  @apply block;
+  @apply block mx-auto;
   width: 48px;
   height: 3px;
   background: var(--accent);
+  margin-bottom: 32px;
 }
 
 .hero__intro {
-  @apply text-base max-w-md;
   font-family: var(--font-body);
-  line-height: 1.8;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.75;
   color: var(--text-secondary);
+  max-width: 520px;
+  margin-bottom: 44px;
 }
 
 .hero__ctas {
-  @apply flex items-center gap-6 flex-wrap;
+  @apply flex items-center gap-5 flex-wrap justify-center;
 }
 
 .hero__cta-divider {
-  @apply hidden sm:block w-px h-8;
-  background: var(--border-hover);
+  @apply hidden;
 }
 
-.hero__pills {
-  @apply flex flex-wrap gap-2;
-}
-
-.hero__badge {
-  @apply mt-2;
-}
-
-/* Right decorative DAW visual */
-.hero__visual {
-  @apply relative hidden lg:block shrink-0;
-  width: 420px;
-}
-
-.hero__daw {
-  @apply relative z-10 overflow-hidden rounded-none;
-  background: linear-gradient(160deg, #1e2128 0%, #1a1d24 45%, #1e2128 100%);
-  border: 1px solid var(--border-subtle);
-}
-
-[data-theme="light"] .hero__daw {
-  background: linear-gradient(160deg, #ffffff 0%, #f8f9fa 50%, #f0f2f4 100%);
-}
-
-.hero__daw::before {
-  content: '';
-  @apply absolute top-0 left-0 right-0 h-0.5 opacity-50;
-  background: linear-gradient(90deg, var(--accent), transparent);
-}
-
-.hero__daw::after {
-  content: '';
-  @apply absolute pointer-events-none;
-  top: -20%;
-  left: -20%;
-  width: 80%;
-  height: 80%;
-  background: radial-gradient(ellipse, rgba(72, 200, 180, 0.05) 0%, transparent 70%);
-}
-
-.hero__daw-chrome {
-  @apply flex items-center gap-2 px-4 py-3;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.hero__daw-dot {
-  @apply block w-2 h-2 rounded-full opacity-40;
-  background: var(--text-tertiary);
-}
-
-.hero__daw-title {
-  @apply ml-3;
-  font-size: 10px;
-  font-family: var(--font-mono);
-  color: var(--text-tertiary);
-  letter-spacing: 0.5px;
-}
-
-.hero__daw-timeline {
-  @apply flex flex-col gap-1 p-4;
-}
-
-.hero__daw-track {
-  @apply flex items-center gap-3 h-9;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.hero__daw-track:last-child {
-  @apply border-b-0;
-}
-
-.hero__daw-track-label {
-  @apply shrink-0 w-12 uppercase;
-  font-size: 9px;
-  font-family: var(--font-mono);
-  color: var(--text-tertiary);
-  letter-spacing: 0.5px;
-}
-
-.hero__daw-waveform {
-  @apply flex-1 h-5 rounded-none opacity-60 bg-repeat-x;
-  background-size: 4px 100%;
-  mask-image: linear-gradient(90deg, transparent 2%, black 15%, black 85%, transparent 98%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 2%, black 15%, black 85%, transparent 98%);
-}
-
-.hero__daw-waveform--1 {
-  @apply opacity-35;
-  width: 85%;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--accent) 0px,
-    var(--accent) 2px,
-    transparent 2px,
-    transparent 4px
-  );
-}
-
-.hero__daw-waveform--2 {
-  @apply opacity-25;
-  width: 70%;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--accent) 0px,
-    var(--accent) 2px,
-    transparent 2px,
-    transparent 5px
-  );
-}
-
-.hero__daw-waveform--3 {
-  @apply w-3/5 opacity-20;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--text-tertiary) 0px,
-    var(--text-tertiary) 2px,
-    transparent 2px,
-    transparent 6px
-  );
-}
-
-.hero__daw-waveform--4 {
-  @apply opacity-15;
-  width: 95%;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--accent) 0px,
-    var(--accent) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-}
-
-.hero__daw-waveform--5 {
-  @apply w-full opacity-40;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--accent) 0px,
-    var(--accent) 2px,
-    transparent 2px,
-    transparent 4px
-  );
-}
-
-/* Stacked card behind */
-.hero__daw-card-behind {
-  @apply absolute overflow-hidden rounded-none opacity-40;
-  z-index: 1;
-  @apply top-3 left-3 -right-3 -bottom-3;
-  background: linear-gradient(160deg, #1e2128 0%, #1a1d24 45%, #1e2128 100%);
-  border: 1px solid var(--border-subtle);
-}
-
-[data-theme="light"] .hero__daw-card-behind {
-  background: linear-gradient(160deg, #ffffff 0%, #f8f9fa 50%, #f0f2f4 100%);
-}
-
-/* Scroll indicator (centered bottom) */
+/* ---- Scroll indicator ---- */
 .hero__scroll {
   @apply absolute flex flex-col items-center gap-2;
   @apply left-1/2 -translate-x-1/2;
-  bottom: 32px;
+  bottom: 40px;
   z-index: 10;
 }
 
@@ -320,7 +137,98 @@
   @apply block;
   width: 1px;
   height: 32px;
-  background: var(--accent);
-  transform-origin: top;
+  background: linear-gradient(180deg, var(--accent), transparent);
   animation: scroll-pulse 2s ease-in-out infinite;
+}
+
+/* ---- Staggered entrance ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__content > * {
+    opacity: 0;
+  }
+
+  .hero__label {
+    animation: hero-reveal-up 0.7s var(--ease-out-expo) 0.2s forwards;
+  }
+
+  .hero__name {
+    animation: hero-scale-in 0.9s var(--ease-out-expo) 0.35s forwards;
+  }
+
+  .hero__accent-bar {
+    animation: hero-reveal-up 0.5s var(--ease-out-expo) 0.55s forwards;
+  }
+
+  .hero__intro {
+    animation: hero-reveal-up 0.7s var(--ease-out-expo) 0.65s forwards;
+  }
+
+  .hero__ctas {
+    animation: hero-reveal-up 0.7s var(--ease-out-expo) 0.85s forwards;
+  }
+
+  .hero__scroll {
+    opacity: 0;
+    animation: hero-reveal-up 0.5s var(--ease-out-expo) 1.3s forwards;
+  }
+}
+
+/* ---- Mobile responsiveness ---- */
+@media (max-width: 768px) {
+  .hero {
+    padding: 100px 20px 80px;
+  }
+
+  .hero__waveform {
+    height: 120px;
+  }
+
+  .hero__intro {
+    max-width: 100%;
+    font-size: 15px;
+    margin-bottom: 36px;
+  }
+
+  .hero__ctas {
+    @apply flex-col w-full;
+    gap: 12px;
+  }
+
+  .hero__ctas .btn--primary,
+  .hero__ctas .btn--secondary {
+    @apply w-full justify-center;
+  }
+
+  .hero__scroll {
+    bottom: 24px;
+  }
+
+  .hero__glow {
+    width: 350px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero {
+    padding: 90px 16px 72px;
+  }
+
+  .hero__label {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .hero__name {
+    margin-bottom: 24px;
+  }
+
+  .hero__accent-bar {
+    margin-bottom: 24px;
+  }
+
+  .hero__intro {
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
 }

@@ -1,0 +1,88 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<LegalLayout
+  title={`Terms of Service | ${siteConfig.metadata.siteName}`}
+  description="The terms that cover commissioning custom music from Seram Sound — scope, payment, revisions, usage rights, and confidentiality."
+  heading="Terms of Service"
+  lastUpdated="June 12, 2026"
+>
+  <p>
+    These terms cover what you can expect when you commission custom music from
+    {siteConfig.name}, and what I ask of you in return. They're meant to be clear and fair —
+    not full of fine print. Every project also comes with its own written agreement, and where
+    that agreement differs from these terms, the agreement wins.
+  </p>
+
+  <h2>Services</h2>
+  <p>
+    {siteConfig.name} provides original, custom music composition and production for film,
+    documentary, branded content, and other short-form work. The exact deliverables, format,
+    and timeline for your project are defined in your project quote and agreement.
+  </p>
+
+  <h2>Quotes &amp; project scope</h2>
+  <p>
+    Each project is quoted individually based on its length, complexity, timeline, and licensing
+    needs. The quote you approve defines the agreed scope. Work that falls outside that scope —
+    additional cues, added length, or expanded usage rights — may be quoted separately before it
+    proceeds.
+  </p>
+
+  <h2>Payment</h2>
+  <p>
+    A <strong>50% deposit</strong> is required before composition begins, with the remaining balance
+    due upon final delivery. Final files are released once payment is complete. Deposits cover work
+    already underway and are non-refundable once composition has started.
+  </p>
+
+  <h2>Revisions</h2>
+  <p>
+    Up to <strong>two rounds of revisions</strong> are included in every quote so we can refine the
+    score until it serves your edit. Further revisions, or changes that go beyond the original creative
+    direction, can be added at an agreed rate.
+  </p>
+
+  <h2>Timelines</h2>
+  <p>
+    Delivery timelines are set per project and built around your deadline — a short spot moves quickly,
+    while a longer-form score needs more time. Timelines assume timely feedback and materials from you;
+    delays on either side may shift the delivery date. I'll always communicate clearly if a schedule needs
+    to change.
+  </p>
+
+  <h2>Usage rights &amp; ownership</h2>
+  <p>
+    On final payment, you receive a license to use the delivered music for the project and usage scope
+    described in your agreement. Unless your agreement states otherwise, I retain authorship and ownership
+    of the underlying composition and master recordings. If you need broader or exclusive rights, we'll
+    define and price that up front.
+  </p>
+
+  <h2>Confidentiality</h2>
+  <p>
+    I treat unreleased projects as confidential and won't share work-in-progress publicly before your
+    release. If your project requires a non-disclosure agreement, I'm happy to sign one. I'd love to feature
+    completed work in my portfolio once it's public — but only with your okay.
+  </p>
+
+  <h2>Limitation of liability</h2>
+  <p>
+    I take pride in delivering work that fits your project, but I can't guarantee specific commercial
+    outcomes. To the fullest extent permitted by law, {siteConfig.name}'s liability for any claim related
+    to a project is limited to the amount you paid for that project.
+  </p>
+
+  <h2>Changes to these terms</h2>
+  <p>
+    These terms may be updated occasionally; the "last updated" date above reflects the current version.
+    The terms in effect when you commission a project are the ones that apply to it.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about these terms? Email <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+  </p>
+</LegalLayout>

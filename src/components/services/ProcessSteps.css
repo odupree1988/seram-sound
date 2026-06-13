@@ -18,16 +18,19 @@
 
 .process__timeline {
   @apply relative flex flex-col;
+  /* Establish a stacking context so the connecting line below sits
+     behind the step markers regardless of the ScrollReveal transforms. */
+  isolation: isolate;
 }
 
-/* Vertical connecting line */
+/* Vertical connecting line — sits behind the opaque number markers */
 .process__timeline::before {
   content: '';
   @apply absolute top-0 bottom-0;
   left: 23px;
   width: 1px;
   background: linear-gradient(180deg, var(--accent), var(--border-subtle) 80%, transparent);
-  z-index: 1;
+  z-index: 0;
 }
 
 .process__step {
