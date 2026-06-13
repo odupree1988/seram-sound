@@ -44,16 +44,8 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
             <rect x="15" y="3" width="4" height="18"/>
           </svg>
         </button>
-        <div class="case-card__waveform" aria-hidden="true">
-          {waveformBars.map((h, i) => (
-            <span
-              class="case-card__bar"
-              style={`height: ${h}px; opacity: ${i < 19 ? 0.85 : 0.25}`}
-            ></span>
-          ))}
-        </div>
         <div
-          class="case-card__progress"
+          class="case-card__waveform"
           role="slider"
           tabindex="0"
           aria-label={`Seek ${title}`}
@@ -62,7 +54,16 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
           aria-valuenow={0}
           aria-valuetext="0:00"
         >
-          <div class="case-card__progress-bar"></div>
+          <div class="case-card__bars case-card__bars--base" aria-hidden="true">
+            {waveformBars.map((h) => (
+              <span class="case-card__bar" style={`height: ${h}px`}></span>
+            ))}
+          </div>
+          <div class="case-card__bars case-card__bars--fill" aria-hidden="true">
+            {waveformBars.map((h) => (
+              <span class="case-card__bar" style={`height: ${h}px`}></span>
+            ))}
+          </div>
         </div>
         <span class="case-card__time">0:00</span>
       </div>
@@ -85,8 +86,8 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
     const src = el.dataset.audioSrc;
     const trackTitle = el.dataset.trackTitle;
     const playBtn = el.querySelector('.case-card__play') as HTMLButtonElement;
-    const progressBar = el.querySelector('.case-card__progress-bar') as HTMLElement;
-    const progressSlider = el.querySelector('.case-card__progress') as HTMLElement;
+    // The waveform doubles as the seek slider: bars fill via --progress-pct.
+    const waveform = el.querySelector('.case-card__waveform') as HTMLElement;
     const timeDisplay = el.querySelector('.case-card__time') as HTMLElement;
 
     let audio: HTMLAudioElement | null = null;
@@ -107,9 +108,8 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
     allPlayers.push({ stop: stopAndReset });
 
     function updateProgress(pct: number) {
-      progressBar.style.width = `${pct}%`;
-      progressSlider.style.setProperty('--progress-pct', `${pct}%`);
-      progressSlider.setAttribute('aria-valuenow', String(Math.round(pct)));
+      waveform.style.setProperty('--progress-pct', `${pct}%`);
+      waveform.setAttribute('aria-valuenow', String(Math.round(pct)));
     }
 
     function formatTime(seconds: number): string {
@@ -133,14 +133,14 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
       audio.addEventListener('loadedmetadata', () => {
         if (!audio) return;
         timeDisplay.textContent = formatTime(audio.duration);
-        progressSlider.setAttribute('aria-valuetext', `0:00 of ${formatTime(audio.duration)}`);
+        waveform.setAttribute('aria-valuetext', `0:00 of ${formatTime(audio.duration)}`);
       });
       audio.addEventListener('timeupdate', () => {
         if (!audio || isDragging) return;
         const pct = (audio.currentTime / audio.duration) * 100;
         updateProgress(pct);
         timeDisplay.textContent = formatTime(audio.currentTime);
-        progressSlider.setAttribute('aria-valuetext', `${formatTime(audio.currentTime)} of ${formatTime(audio.duration)}`);
+        waveform.setAttribute('aria-valuetext', `${formatTime(audio.currentTime)} of ${formatTime(audio.duration)}`);
       });
       audio.addEventListener('ended', () => {
         isPlaying = false;
@@ -170,7 +170,7 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
     playBtn?.addEventListener('click', togglePlayPause);
 
     // Keyboard support for progress slider
-    progressSlider?.addEventListener('keydown', (e: KeyboardEvent) => {
+    waveform?.addEventListener('keydown', (e: KeyboardEvent) => {
       if (!audio || !audio.duration) return;
       const step = 5;
       switch (e.key) {
@@ -197,7 +197,7 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
 
     // --- Click & drag to seek ---
     function getFraction(clientX: number): number {
-      const rect = progressSlider.getBoundingClientRect();
+      const rect = waveform.getBoundingClientRect();
       return Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     }
 
@@ -211,7 +211,7 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
 
     function onDragEnd(clientX: number) {
       isDragging = false;
-      progressSlider.classList.remove('case-card__progress--dragging');
+      waveform.classList.remove('case-card__waveform--dragging');
       const frac = getFraction(clientX);
       seekTo(frac);
       document.removeEventListener('mousemove', handleMouseMove);
@@ -225,20 +225,20 @@ const waveformBars = Array.from({ length: 48 }, (_, i) => {
     function handleTouchMove(e: TouchEvent) { e.preventDefault(); onDragMove(e.touches[0].clientX); }
     function handleTouchEnd(e: TouchEvent) { onDragEnd(e.changedTouches[0].clientX); }
 
-    progressSlider?.addEventListener('mousedown', (e: MouseEvent) => {
+    waveform?.addEventListener('mousedown', (e: MouseEvent) => {
       e.preventDefault();
       initAudio();
       isDragging = true;
-      progressSlider.classList.add('case-card__progress--dragging');
+      waveform.classList.add('case-card__waveform--dragging');
       onDragMove(e.clientX);
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     });
 
-    progressSlider?.addEventListener('touchstart', (e: TouchEvent) => {
+    waveform?.addEventListener('touchstart', (e: TouchEvent) => {
       initAudio();
       isDragging = true;
-      progressSlider.classList.add('case-card__progress--dragging');
+      waveform.classList.add('case-card__waveform--dragging');
       onDragMove(e.touches[0].clientX);
       document.addEventListener('touchmove', handleTouchMove, { passive: false });
       document.addEventListener('touchend', handleTouchEnd);

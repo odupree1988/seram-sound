@@ -3,6 +3,11 @@
    CONTACT SECTION
    ============================================ */
 
+/* Web3Forms honeypot — hidden from real users; bots that fill it are rejected */
+.contact__honeypot {
+  display: none !important;
+}
+
 .contact {
   @apply pt-0 pb-24;
   background: var(--bg-primary);

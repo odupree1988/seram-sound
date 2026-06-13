@@ -118,58 +118,52 @@
   @apply block;
 }
 
-/* Waveform bars */
+/* Waveform — doubles as the seek scrubber.
+   Two stacked bar layers: a dim base (unplayed) and a bright accent layer
+   (played) revealed left-to-right via clip-path driven by --progress-pct. */
 .case-card__waveform {
-  @apply flex items-end gap-px shrink-0;
-  height: 28px;
+  @apply relative flex-1 cursor-pointer;
+  height: 32px;
+  outline: none;
+}
+
+.case-card__waveform:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.case-card__bars {
+  @apply absolute inset-0 flex items-end gap-px;
 }
 
 .case-card__bar {
-  @apply block shrink-0;
-  width: 2px;
+  @apply block;
+  flex: 1 1 0;
+  min-width: 2px;
   border-radius: 1px;
   background: var(--accent);
-  transition: opacity var(--transition-fast);
 }
 
-/* Progress slider */
-.case-card__progress {
-  @apply relative flex-1 rounded-none cursor-pointer;
-  height: 3px;
-  background: var(--border-subtle);
-  padding: 8px 0;
-  background-clip: content-box;
+/* Base (unplayed) bars — dim */
+.case-card__bars--base .case-card__bar {
+  opacity: 0.22;
 }
 
-.case-card__progress::after {
-  content: '';
-  @apply absolute rounded-full;
-  width: 12px;
-  height: 12px;
-  top: 50%;
-  left: var(--progress-pct, 0%);
-  transform: translate(-50%, -50%) scale(0);
-  background: var(--accent);
-  transition: transform var(--transition-fast);
+/* Fill (played) bars — bright, clipped to current progress */
+.case-card__bars--fill {
+  clip-path: inset(0 calc(100% - var(--progress-pct, 0%)) 0 0);
+  transition: clip-path 0.12s linear;
   pointer-events: none;
 }
 
-.case-card__progress:hover::after,
-.case-card__progress--dragging::after {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.case-card__progress-bar {
-  @apply absolute left-0 w-0 rounded-none;
-  top: 8px;
-  height: 3px;
-  background: var(--accent);
-  transition: width 0.1s linear;
-  pointer-events: none;
-}
-
-.case-card__progress--dragging .case-card__progress-bar {
+.case-card__waveform--dragging .case-card__bars--fill {
   transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-card__bars--fill {
+    transition: none;
+  }
 }
 
 .case-card__time {

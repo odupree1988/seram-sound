@@ -13,7 +13,13 @@ import { siteConfig } from '../../data/siteConfig';
     </ScrollReveal>
 
     <ScrollReveal delay={100}>
-      <form class="contact__form" action="#" method="POST" data-contact-form novalidate>
+      <form class="contact__form" action="https://api.web3forms.com/submit" method="POST" data-contact-form novalidate>
+        <input type="hidden" name="access_key" value="b940fb09-6186-40a6-9434-d58569d13f5e" />
+        <input type="hidden" name="subject" value="New project inquiry from seramsound.com" />
+        <input type="hidden" name="from_name" value="Seram Sound Website" />
+        <!-- Honeypot: hidden from users, bots that fill it are rejected by Web3Forms -->
+        <input type="checkbox" name="botcheck" class="contact__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
         <div class="contact__form-row">
           <div class="contact__field">
             <label for="contact-name" class="contact__label">Name</label>
@@ -164,8 +170,9 @@ import { siteConfig } from '../../data/siteConfig';
       try {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
-        // Submit to configured endpoint
-        // Replace this URL with your Formspree, Getform, or custom API endpoint
+        // Give the client's email a useful subject line based on the project type.
+        data.subject = `New inquiry${data.projectType ? ` — ${data.projectType}` : ''} (seramsound.com)`;
+        // Posts JSON to Web3Forms; access_key + fields land in the client's inbox.
         const endpoint = form.getAttribute('action') || '#';
 
         if (endpoint === '#') {
@@ -186,7 +193,9 @@ import { siteConfig } from '../../data/siteConfig';
           body: JSON.stringify(data),
         });
 
-        if (response.ok) {
+        const result = await response.json().catch(() => ({}));
+
+        if (response.ok && result.success !== false) {
           statusEl.textContent = 'Message sent! I\u2019ll be in touch soon.';
           statusEl.className = 'contact__status contact__status--success';
           form.reset();
